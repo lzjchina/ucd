@@ -4,14 +4,45 @@
     <table class="shoppingBoxTable" v-if="packageAll.length > 0" v-for="(packageItem, index) in packageAll">
       <thead>
         <tr>
-          <td>{{packageItem.packageType}}</td>
-          <td @click="removePackage(index)" class="removeText"><i class="removeIco"></i>Remove</td>
+          <td class="packageType">{{packageItem.packageType}}</td>
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+          <td>5</td><td @click="removePackage(index)" class="removeText"><i class="removeIco"></i>Remove</td>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-for="item in packageItem.packageItem">
         <tr>
-          <td>1</td>
+          <td rowspan="4">1</td>
           <td>2</td>
+          <td>3</td>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
+        </tr>
+        <tr>
+          <!-- <td>1</td> -->
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
+        </tr>
+        <tr>
+          <!-- <td>1</td> -->
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
+        </tr>
+        <tr>
+          <!-- <td>1</td> -->
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
         </tr>
       </tbody>
       <tfoot>
@@ -233,14 +264,20 @@ export default {
 }
 </script>
 <style lang="stylus">
+table, tr, td
+  margin 0
+  padding 0
 .shoppingBox
   padding-top 88px
   margin 0 176px 0
   min-height 100vh
+  min-width 1000px
 .shoppingBoxTable
   width 100%
+  min-width 1000px
   border 1px solid #e5e5e5
   padding calc(20/1920*100vw) calc(30/1920*100vw)
+  margin-bottom calc(15/1920*100vw)
 .shoppingBoxTitle
   height 88px
   font-size 24px
@@ -253,8 +290,11 @@ export default {
   height 18px
   background url('~statics/ShoppingBag/Remove.png')
   margin 0 10px
+.packageType
+  color #b2b2b2
 .removeText
   color #74c0fc
   display flex
   align-items center
+  text-align right
 </style>
