@@ -1,19 +1,85 @@
 <template>
   <div class="shoppingBox">
-    <div class="shoppingBoxTitle">3 Items in Your Bag</div>
+    <div class="shoppingBoxTitle">Shopping Bag</div>
     <table class="shoppingBoxTable" v-if="packageAll.length > 0" v-for="(packageItem, index) in packageAll">
       <thead>
         <tr>
           <td class="packageType">{{packageItem.packageType}}</td>
-          <td>2</td>
-          <td>3</td>
-          <td>4</td>
-          <td>5</td><td @click="removePackage(index)" class="removeText"><i class="removeIco"></i>Remove</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td @click="removePackage(index)" class="removeText"><i class="removeIco"></i>Remove</td>
         </tr>
       </thead>
       <tbody v-for="item in packageItem.packageItem">
         <tr>
-          <td rowspan="4">1</td>
+          <td rowspan="4"><img :src="item.packageItemImgUrl" /></td>
+          <td>{{item.packageItemName}}</td>
+          <td rowspan="4">X{{item.packageItemNumber}}</td>
+          <td rowspan="4">
+            <div>Upfront</div>
+            <div>
+              ${{item.packageItemUpfront * item.packageItemNumber}}
+            </div>
+          </td>
+          <td rowspan="4"><div class="vertical"></div></td>
+          <td rowspan="4">
+            <div class="packageItemMonthlyText">Monthly Rental</div>
+            <div class="packageItemMonthly">
+              ${{item.packageItemMonthly * item.packageItemNumber}}
+            </div></td>
+        </tr>
+        <tr>
+          <!-- <td>1</td> -->
+          <td>${{item.packageItemPrice}}</td>
+          <!-- <td>3</td> -->
+          <!-- <td>4</td> -->
+          <!-- <td>5</td> -->
+          <!-- <td>6</td> -->
+        </tr>
+        <tr>
+          <!-- <td>1</td> -->
+          <td>{{item.packageItemDetail1}}</td>
+          <!-- <td>3</td> -->
+          <!-- <td>4</td> -->
+          <!-- <td>5</td> -->
+          <!-- <td>6</td> -->
+        </tr>
+        <tr>
+          <!-- <td>1</td> -->
+          <td>{{item.packageItemDetail2}}</td>
+          <!-- <td>3</td> -->
+          <!-- <td>4</td> -->
+          <!-- <td>5</td> -->
+          <!-- <td>6</td> -->
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td></td>
+          <td>Subtotal</td>
+          <td>Upfront:${{packageItem.packageUpfrontTotal}}</td>
+          <td>Monthly Rental:${{packageItem.packageMonthlyTotal}}</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <table class="shoppingBoxTable" v-for="(item, index) in itemAll">
+      <!-- <thead>
+        <tr>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
+        </tr>
+      </thead> -->
+      <tbody>
+        <tr>
+          <td>1</td>
           <td>2</td>
           <td>3</td>
           <td>4</td>
@@ -21,7 +87,7 @@
           <td>6</td>
         </tr>
         <tr>
-          <!-- <td>1</td> -->
+          <td>1</td>
           <td>2</td>
           <td>3</td>
           <td>4</td>
@@ -29,7 +95,7 @@
           <td>6</td>
         </tr>
         <tr>
-          <!-- <td>1</td> -->
+          <td>1</td>
           <td>2</td>
           <td>3</td>
           <td>4</td>
@@ -37,7 +103,7 @@
           <td>6</td>
         </tr>
         <tr>
-          <!-- <td>1</td> -->
+          <td>1</td>
           <td>2</td>
           <td>3</td>
           <td>4</td>
@@ -49,6 +115,10 @@
         <tr>
           <td>1</td>
           <td>2</td>
+          <td>3</td>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
         </tr>
       </tfoot>
     </table>
@@ -297,4 +367,10 @@ table, tr, td
   display flex
   align-items center
   text-align right
+.vertical
+  border-left 1px solid #EAEAEA
+  width 0
+  height 48px
+  margin 65px 0px
+  flex 0
 </style>
