@@ -1,45 +1,32 @@
 <template>
   <div class="shoppingBox">
     <div class="shoppingBoxTitle">Shopping Bag</div>
-    <table class="shoppingBoxTable" v-if="packageAll.length > 0" v-for="(packageItem, index) in packageAll" cellpadding="0" cellspacing="0">
+    <table class="shoppingBoxTable" v-if="packageAll.length > 0" v-for="(packageItem, index) in packageAll">
       <thead>
         <tr>
-          <td class="packageType headStyleLine">{{packageItem.packageType}}</td>
-          <td class="headStyleLine"></td>
-          <td class="headStyleLine"></td>
-          <td class="headStyleLine"></td>
-          <td class="headStyleLine"></td>
-          <td @click="removePackage(index)" class="removeText headStyleLine"><i class="removeIco"></i>Remove</td>
+          <td class="packageType">{{packageItem.packageType}}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td @click="removePackage(index)" class="removeText"><i class="removeIco"></i>Remove</td>
         </tr>
       </thead>
-      <tbody>
-        <tr v-for="item in packageItem.packageItem">
-          <td class="td1"><img :src="item.packageItemImgUrl" /></td>
-
-          <td class="td2" style="border-bottom:1px solid #eaeaea;">
-            <div class="packageItemName">{{item.packageItemName}}</div>
-            <div class="packageItemPriceAndType">
-              <div class="packageItemPrice">${{item.packageItemPrice}}</div>
-              <div class="packageItemType">{{item.packageItemType}}</div>
-            </div>
-            <div class="packageItemDetail1">{{item.packageItemDetail1}}</div>
-            <div class="packageItemDetail2">{{item.packageItemDetail2}}</div>
+      <tbody v-for="item in packageItem.packageItem">
+        <tr>
+          <td rowspan="4" class="td1">
+            <img :src="item.packageItemImgUrl" />
           </td>
-
-          <td class="td3" style="border-bottom:1px solid #eaeaea;">
-            X{{item.packageItemNumber}}
-          </td>
-
-          <td class="td4" style="border-bottom:1px solid #eaeaea;">
+          <td class="td2 packageItemName">{{item.packageItemName}}</td>
+          <td rowspan="4" class="td3">X{{item.packageItemNumber}}</td>
+          <td rowspan="4" class="td4">
             <div class="packageItemUpfrontText">Upfront</div>
             <div class="packageItemUpfront">
               ${{item.packageItemUpfront * item.packageItemNumber}}
             </div>
           </td>
-          <td class="td5" style="border-bottom:1px solid #eaeaea;">
-            <div class="vertical"></div>
-          </td>
-          <td class="td6" style="border-bottom:1px solid #eaeaea;">
+          <td rowspan="4" class="td5"><div class="vertical"></div></td>
+          <td rowspan="4" class="td6">
             <div class="packageItemMonthlyText">Monthly Rental</div>
             <div class="packageItemMonthly">
               ${{item.packageItemMonthly * item.packageItemNumber}}
@@ -47,39 +34,46 @@
           </td>
         </tr>
         <tr>
-          <td colspan="6" style="position:relative;height:48px;line-height 48px">
-            <div class="subTotal">
-              Subtotal
-            </div>
-            <div class="upfrontTotal">
-              Upfront:<b class="upfrontTotalBlack">${{packageItem.packageUpfrontTotal}}</b>
-            </div>
-            <div class="monthlyTotal">
-              Monthly Rental:<b class="monthlyTotalBlack">${{packageItem.packageMonthlyTotal}}</b>
-            </div>
+          <td class="td2">
+            <b class="packageItemPrice">${{item.packageItemPrice}}</b>
+            <b class="packageItemType">{{item.packageItemType}}</b>
           </td>
         </tr>
-      </tbody>
-    </table>
-
-    <table class="shoppingBoxTable" v-for="(item, index) in itemAll">
-      <tbody>
         <tr>
-          <td class="td1">
+          <td class="td2 packageItemDetail1">{{item.packageItemDetail1}}</td>
+        </tr>
+        <tr>
+          <td class="td2 packageItemDetail2">{{item.packageItemDetail2}}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td style="border-top:1px solid #eaeaea"></td>
+          <td style="border-top:1px solid #eaeaea"></td>
+          <td style="border-top:1px solid #eaeaea"></td>
+          <td style="border-top:1px solid #eaeaea"></td>
+          <td style="border-top:1px solid #eaeaea"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="subTotal">Subtotal</td>
+          <td class="upfrontTotal">Upfront:<b class="upfrontTotalBlack">${{packageItem.packageUpfrontTotal}}</b></td>
+          <td class="monthlyTotal">Monthly Rental:<b class="monthlyTotalBlack">${{packageItem.packageMonthlyTotal}}</b></td>
+        </tr>
+      </tfoot>
+    </table>
+  
+    <table class="shoppingBoxTable" v-if="packageAll.length > 0" v-for="(packageItem, index) in itemAll">
+      <tbody v-for="item in packageItem.packageItem">
+        <tr>
+          <td rowspan="4" class="td1">
             <img :src="item.itemImgUrl" />
           </td>
-
-          <td class="td2">
-            <div class="packageItemName">{{item.itemName}}</div>
-            <div class="packageItemPriceAndType">
-              <div class="packageItemPrice">${{item.itemPrice}}</div>
-              <div class="packageItemType">{{item.itemType}}</div>
-            </div>
-            <div class="packageItemDetail1">{{item.itemDetail1}}</div>
-            <div class="packageItemDetail2">{{item.itemDetail2}}</div>
-          </td>
-
-          <td class="td3">
+          <td class="td2 packageItemName">{{item.itemName}}</td>
+          <td rowspan="4" class="td3">
             <div class="itemNumberBox">
               <div class="itemNumber">
                 <button class="itemNumberBtn" :disabled="item.disabled" @click="reduceChangeNum(index, item.itemNumber, item.disabled)">-</button>
@@ -89,22 +83,31 @@
               <div class="removeItem" @click="removeItem(index)"><i class="removeIco"></i>Remove</div>
             </div>
           </td>
-
-          <td class="td4">
+          <td rowspan="4" class="td4">
             <div class="packageItemUpfrontText">Upfront</div>
             <div class="packageItemUpfront">
               ${{item.itemUpfront * item.itemNumber}}
             </div>
           </td>
-
-          <td class="td5">
+          <td rowspan="4" class="td5">
             <!-- <div class="vertical"></div> -->
           </td>
-
-          <td class="td6">
+          <td rowspan="4" class="td6">
             <div class="packageItemMonthlyText">Monthly Rental</div>
             <div class="packageItemMonthly">${{item.itemMonthly * item.itemNumber}}</div>
+            </td>
+        </tr>
+        <tr>
+          <td class="td2">
+            <b class="packageItemPrice">${{item.itemPrice}}</b>
+            <b class="packageItemType">{{item.itemType}}</b>
           </td>
+        </tr>
+        <tr>
+          <td class="td2 packageItemDetail1">{{item.itemDetail1}}</td>
+        </tr>
+        <tr>
+          <td class="td2 packageItemDetail2">{{item.itemDetail2}}</td>
         </tr>
       </tbody>
     </table>
@@ -215,26 +218,34 @@ export default {
       ],
       itemAll: [
         {
-          itemImgUrl: './statics/phone.png',
-          itemName: 'Apple iPhone X + 198 Bundle',
-          itemPrice: '1149.00',
-          itemUpfront: '1149.00',
-          itemMonthly: '0.00',
-          itemNumber: 2,
-          itemType: 'Device',
-          itemDetail1: 'Memory: 256 GB, Primary: 198 Bundle, Color: Space gray',
-          itemDetail2: 'Delivery: In Stock'
+          packageItem: [
+            {
+              itemImgUrl: './statics/phone.png',
+              itemName: 'Apple iPhone X + 198 Bundle',
+              itemPrice: '1149.00',
+              itemUpfront: '1149.00',
+              itemMonthly: '0.00',
+              itemNumber: 2,
+              itemType: 'Device',
+              itemDetail1: 'Memory: 256 GB, Primary: 198 Bundle, Color: Space gray',
+              itemDetail2: 'Delivery: In Stock'
+            }
+          ]
         },
         {
-          itemImgUrl: './statics/phone.png',
-          itemName: 'Apple iPhone XX + 198 Bundle',
-          itemPrice: '11.00',
-          itemUpfront: '0.00',
-          itemMonthly: '11.00',
-          itemNumber: 2,
-          itemType: 'Device',
-          itemDetail1: 'Memory: 256 GB, Primary: 198 Bundle, Color: Space gray',
-          itemDetail2: 'Delivery: In Stock'
+          packageItem: [
+            {
+              itemImgUrl: './statics/phone.png',
+              itemName: 'Apple iPhone XX + 198 Bundle',
+              itemPrice: '11.00',
+              itemUpfront: '0.00',
+              itemMonthly: '11.00',
+              itemNumber: 2,
+              itemType: 'Device',
+              itemDetail1: 'Memory: 256 GB, Primary: 198 Bundle, Color: Space gray',
+              itemDetail2: 'Delivery: In Stock'
+            }
+          ]
         }
       ],
       upfront: 0,
@@ -487,32 +498,30 @@ table, tr, td
   width 9%
 .td2
   width 40%
-  padding-left 25px
+  padding 0 0 0 25px
 .packageItemName
   font-size 18px
   font-weight bold
-  line-height 32px
+  line-height 10px 
 .packageItemPrice
-  display inline-block
   font-size 16px
   font-weight bold
-  line-height 32px
+  line-height 10px
 .packageItemType
-  display inline-block
   margin-left 25px
   font-weight normal
   font-size 16px
-  line-height 32px
+  line-height 10px
   color #cdcdcc
 .packageItemDetail1
   font-weight normal
   font-size 14px
-  line-height 32px
+  line-height 10px
   color #707070
 .packageItemDetail2
   font-weight normal
   font-size 14px
-  line-height 32px
+  line-height 10px
   color #707070
 .td3
   width 16%
@@ -549,16 +558,10 @@ table, tr, td
   width 150px
   color #666666
   font-size 12px
-  display inline-block
-  position absolute
-  right calc(530/1920*100vw)
 .upfrontTotal
   width 230px
   color #666666
   font-size 12px
-  display inline-block
-  position absolute
-  right calc(300/1920*100vw)
 .upfrontTotalBlack
   color #252525 !important
   font-size 12px
@@ -567,9 +570,6 @@ table, tr, td
   display inline-block
   color #666666
   font-size 12px
-  display inline-block
-  position absolute
-  right calc(35/1920*100vw)
 .monthlyTotalBlack
   color #252525 !important
 .horizon
@@ -579,7 +579,4 @@ table, tr, td
   bottom 0px
   right 0px
   position absolute
-.headStyleLine
-  line-height 32px
-  border-bottom 1px solid #eaeaea
 </style>
