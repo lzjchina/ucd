@@ -76,8 +76,9 @@ export default new VueRouter({
       ]
     },
     {
-      path: '/Products', // 商品详情页
-      component: load('layout/products/productMenu/productMenu'),
+      path: '/ProductMenu', // 商品菜单页
+      redirect: '/ProductMenu/Overview',
+      component: load('layout/common/index/index'),
       children: [
         { path: 'Overview', component: load('layout/products/overview/overview') },
         { path: 'Gallery', component: load('layout/products/gallery/gallery') },
@@ -85,6 +86,16 @@ export default new VueRouter({
         { path: 'Reviews', component: load('layout/products/reviews/reviews') }
       ]
     },
+    // {
+    //   path: '/Products', // 商品详情页
+    //   component: load('layout/products/productMenu/productMenu'),
+    //   children: [
+    //     { path: 'Overview', component: load('layout/products/overview/overview') },
+    //     { path: 'Gallery', component: load('layout/products/gallery/gallery') },
+    //     { path: 'Techspec', component: load('layout/products/techSpec/techSpec') },
+    //     { path: 'Reviews', component: load('layout/products/reviews/reviews') }
+    //   ]
+    // },
     // Always leave this last one
     { path: '*', component: load('Error404') } // Not found
   ]

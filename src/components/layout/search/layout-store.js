@@ -1,5 +1,5 @@
 export default {
-  view: 'hhh Lpr fff',
+  view: 'hhh lpr fff',
   reveal: true,
   leftScroll: false,
   rightScroll: false,

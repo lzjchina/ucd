@@ -72,9 +72,14 @@ export default {
 // .marketBox .marketContent
 //   margin-top calc(88/1920*100vw)
 .myorder-layout-left
-  margin-top 88px
+  padding-top 88px
   position relative !important
+  .layout
+    min-height calc(100vh - 88px) !important
+  main
+    min-height calc(100vh - 88px) !important
   .layout-aside-left
+    top 88px !important
     width calc(300/1920*100vw)
   .myorder-left
     overflow hidden

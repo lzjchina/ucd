@@ -1,11 +1,11 @@
 {
 	"data":{
 		"select": 0,
-		"total": 10,
+		"total": 5,
 		"items":[
 			{
 				"id": 0,
-				"name": "HUAWEI VR",
+				"name": "HUAWEI VR2",
 				"image": "statics/images/Homepage/pic1.png",
 				"src": "?hot=1",
 				"price": "$1299",
@@ -16,7 +16,7 @@
 				"name": "Huawei Watch 2 Pro",
 				"image": "statics/images/Homepage/pic2.png",
 				"src": "?hot=2",
-				"price": "$1299",
+				"price": "$1249",
 				"type": "Accessories"
 			},
 			{
@@ -24,7 +24,7 @@
 				"name": "HUAWEI VR",
 				"image": "statics/images/Homepage/pic3.png",
 				"src": "?hot=3",
-				"price": "$1299",
+				"price": "$5599",
 				"type": "Accessories"
 			},
 			{
@@ -32,7 +32,7 @@
 				"name": "Huawei Watch 2 Pro",
 				"image": "statics/images/Homepage/pic4.png",
 				"src": "?hot=4",
-				"price": "$1299",
+				"price": "$51299",
 				"type": "Accessories"
 			},
 			{
@@ -40,7 +40,7 @@
 				"name": "HUAWEI VR",
 				"image": "statics/images/Homepage/pic5.png",
 				"src": "?hot=5",
-				"price": "$1299",
+				"price": "$5299",
 				"type": "Accessories"
 			}
 		]

@@ -1,5 +1,5 @@
 <template>
-  <div class="swiper">
+  <div>
     <div>
       <q-gallery-carousel
         horizontal-quick-view
@@ -37,7 +37,7 @@ export default {
 <style lang="stylus">
 .imagesbox
   width 100%
-  height calc(100vh - 64px)
+  height calc(100vh - 65px)
 .imagesbox .q-carousel-toolbar
   display none
 .imagesbox .q-icon .material-icons

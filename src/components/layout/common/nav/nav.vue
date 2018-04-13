@@ -3,7 +3,7 @@
   <q-layout :view='view' style="overflow: hidden" class="navTop" position="top">
     <q-tabs slot="navigation" class="q-tabs-logo">
       <q-tab slot="title" hide="label" class="logo">
-         <img src="~assets/logo.png" class="responsive">
+         <img src="statics/images/Homepage/ico_menu.png" class="responsive">
       </q-tab>
     </q-tabs>
     <!-- Navigation Tabs -->
@@ -11,8 +11,7 @@
         <!-- <q-route-tab slot="title" disable to="/Home" hide="label" class="logo">
           <img src="~assets/logo.png" class="responsive">
         </q-route-tab> -->
-        <q-route-tab slot="title" default="true" to="/" inline hide="icon" label="STORE" />
-        <q-route-tab slot="title" to="/" inline hide="icon" label="SUPPORT" />
+        <q-route-tab slot="title" default="true" to="/" inline hide="icon" label="COMMERCE"><span class="blackBottom"></span></q-route-tab>
     </q-tabs>
     <q-tabs slot="navigation" class="q-tabs-right">
       <q-tab slot="title" hide="label" class="search">
@@ -439,7 +438,6 @@ export default {
       // this.leave = toDepth === 'ProductContent' ? 'animated fadeOutRightBig' : 'animated fadeOutLeftBig'
       // console.log(to)
       // console.log(from)
-
       // var routerPath = this.$route.fullPath
       // if (routerPath.indexOf('/ProductContent') >= 0) {
       //   this.view = 'hHh lpr fff'
@@ -490,7 +488,7 @@ export default {
 </script>
 <style lang="stylus">
 main, .layout, .layout-header, .layout-footer
-  // position static !important
+  position static !important
 .navTop
   .globalMask
     opacity: 0.4
@@ -742,10 +740,20 @@ main, .layout, .layout-header, .layout-footer
     background none
     position relative
     z-index 10
+    .q-tabs-right-scroll
+      background none
   .q-tabs-logo
     margin-left 40px
     .q-tab
+      width 24px
       color #252525
+      // margin-right 24px
+      >img
+        width 24px
+        height 20px
+        display flex
+        justify-content center
+        align-items center
   .logo
     z-index 50
     .q-tabs-bar
@@ -756,7 +764,28 @@ main, .layout, .layout-header, .layout-footer
       color #252525
       margin-left 20px
       margin-right 20px
+      flex-direction column
+      justify-content center
+      align-items center
+      >.q-tab-label
+        opacity 1
+        margin-top 12px
+        font-family 'MN'
+        font-size 24px
+        // font-weight bold
+      >.blackBottom
+        width 25px
+        height 4px
+        margin-top 8px
+        border-radius 2px
+    .q-tab.active>.blackBottom
+      // width 25px
+      // height 4px
+      background #252525
+      // margin-top 8px
+      // border-radius 2px
     .q-tabs-bar
+      display none
       color #252525
       border 2px solid currentColor
       // width 24px
@@ -860,7 +889,7 @@ main, .layout, .layout-header, .layout-footer
       .q-tabs-head:not(.scrollable)
         padding 0
     .q-tabs-left .q-tab
-      width 100px
+      // width 100px
       padding 0
       margin 0
       // margin-left 20px

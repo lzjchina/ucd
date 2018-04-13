@@ -562,42 +562,40 @@ export default {
 </script>
 <style lang="stylus">
 .cont
-   width 100%
-   overflow hidden
-   margin-top 64px
-.btnGroup
-   width 100vw
-   // height 113px
-   background #f5f5f5
-   font-size .14rem
-   color #000
-   align-items center
-   flex-wrap nowrap
-   border-top 1px solid #e5e5e5
-.btnTip
-   width 514px
-   padding-left 230px
-   padding-right 65px
-   display flex
-   justify-content center
-   align-items center
-.btnTip > span
-   font-size 45px
-   color #6dd6a9
-.btnTip > .btnTipTittle,.btnChoice > .btnTipTittle
-   margin 0 25px
-   font-size 14px
-   color #838383
-.btnChoice
-   display flex
-   justify-content center
-   align-items center
-.btn
+  width 100%
+  overflow hidden
+  .btnGroup
+    width 100vw
+    // height 113px
+    background #f5f5f5
+    font-size .14rem
+    color #000
+    align-items center
+    flex-wrap nowrap
+    border-top 1px solid #e5e5e5
+  .btnTip
+    width 514px
+    padding-left 230px
+    padding-right 65px
+    display flex
+    justify-content center
+    align-items center
+  .btnTip > span
+    font-size 45px
+    color #6dd6a9
+  .btnTip > .btnTipTittle,.btnChoice > .btnTipTittle
+    margin 0 25px
+    font-size 14px
+    color #838383
+  .btnChoice
+    display flex
+    justify-content center
+    align-items center
+  .btn
     display flex
     flex-wrap wrap
     font-weight bold
-
-.btn > button
+  .btn > button
     padding 0 25px
     margin 8px
     height 32px
@@ -606,107 +604,107 @@ export default {
     color #343434
     border 1px solid #b2b2b2
     outline none
-.btn > button:focus
+  .btn > button:focus
     outline none
     border 1px solid #6dd6a9
-.btn > button > span
+  .btn > button > span
     color #b7b7b7
-.tab
-  margin 0 auto
-  width 1624px
-  height 64px
-  background #fff
-  color #fff
-  border-bottom 1px solid #e5e5e5
-  padding 0 65px 0 325px
-  display flex
-  flex-wrap nowrap
-  justify-content space-between
-  align-items center
-.tab > .tabBt
-  margin 60px
-.tab > .tabBt > button
-  background #fff
-  color #b2b2b2
-  border 0
-  outline none
-.tab > .tabBt > button:focus
+  .tab
+    margin 0 auto
+    width 1624px
+    height 64px
+    background #fff
+    color #fff
+    border-bottom 1px solid #e5e5e5
+    padding 0 65px 0 325px
+    display flex
+    flex-wrap nowrap
+    justify-content space-between
+    align-items center
+  .tab > .tabBt
+    margin 60px
+  .tab > .tabBt > button
+    background #fff
+    color #b2b2b2
+    border 0
+    outline none
+  .tab > .tabBt > button:focus
     outline none
     color #252525
-.tab .qTab > q-tab
-  margin 0 20px
-.tab .q-if:before
-  color #fff
-  height 0 !important
-.tab .text-primar
-  color #fff !important
-.tab .q-if:before, .q-if:after
-  background #fff
-.details
-  margin 0 auto
-  width calc(1624/1920*100vw)
-  min-width 1000px
-  border-bottom 1px solid #e5e5e5
-  padding 33px 0
-  display flex
-  flex-wrap nowrap
-.details .q-list
-  border 0
-  width 256px
-  padding 0
-.details .q-item
-  padding 0 40px
-.details .q-item-sublabel
-  font-size 13px
-.details .ellipsis
-  font-size 14px
-  line-height 27px
-.discuss
-  list-style none
-  margin 0
-  padding 0
-  width 100%
-.discussName
-  font-size 14px 
-  color #252525
-  line-height 22px
-.describe
-  font-size 12px
-  color #999999
-  line-height 22px
-.text
-  margin-top 18px
-  padding 20px 26px 36px 20px
-  background #f5f5f5
-.text > h3
-  color #6dd6a9
-  font-size 12px
-  line-height 24px
-.text > p
-  color #838383
-  font-size 12px
-  line-height 24px
-.paging
-  width calc(1496/1920*100vw)
-  min-width 100px
-  margin 0 auto
-  display flex
-  align-items center
-  justify-content space-between
-  padding 64px 64px 44px 64px 
-.pagingTip
-  font-size 12px
-.pagingTip > span
-  color #252525
-  font-weight 700
-.pagingTip > i
-  font-style normal
-  color #b2b2b2
-  margin-left 8px
-.q-list-highlight > .q-item:hover, .q-item-highlight:hover, .q-list-link > .q-item:hover, .q-item-link:hover
-  background #fff
-.q-tab.active .q-tab-icon, .q-tab.active .q-tab-label
-  color #252525
-.q-tab .q-tab-label
-  color #b2b2b2
+  .tab .qTab > q-tab
+    margin 0 20px
+  .tab .q-if:before
+    color #fff
+    height 0 !important
+  .tab .text-primar
+    color #fff !important
+  .tab .q-if:before, .q-if:after
+    background #fff
+  .details
+    margin 0 auto
+    width calc(1624/1920*100vw)
+    min-width 1000px
+    border-bottom 1px solid #e5e5e5
+    padding 33px 0
+    display flex
+    flex-wrap nowrap
+  .details .q-list
+    border 0
+    width 256px
+    padding 0
+  .details .q-item
+    padding 0 40px
+  .details .q-item-sublabel
+    font-size 13px
+  .details .ellipsis
+    font-size 14px
+    line-height 27px
+  .discuss
+    list-style none
+    margin 0
+    padding 0
+    width 100%
+  .discussName
+    font-size 14px 
+    color #252525
+    line-height 22px
+  .describe
+    font-size 12px
+    color #999999
+    line-height 22px
+  .text
+    margin-top 18px
+    padding 20px 26px 36px 20px
+    background #f5f5f5
+  .text > h3
+    color #6dd6a9
+    font-size 12px
+    line-height 24px
+  .text > p
+    color #838383
+    font-size 12px
+    line-height 24px
+  .paging
+    width calc(1496/1920*100vw)
+    min-width 100px
+    margin 0 auto
+    display flex
+    align-items center
+    justify-content space-between
+    padding 64px 64px 44px 64px 
+  .pagingTip
+    font-size 12px
+  .pagingTip > span
+    color #252525
+    font-weight 700
+  .pagingTip > i
+    font-style normal
+    color #b2b2b2
+    margin-left 8px
+  .q-list-highlight > .q-item:hover, .q-item-highlight:hover, .q-list-link > .q-item:hover, .q-item-link:hover
+    background #fff
+  .q-tab.active .q-tab-icon, .q-tab.active .q-tab-label
+    color #252525
+  .q-tab .q-tab-label
+    color #b2b2b2
 </style>

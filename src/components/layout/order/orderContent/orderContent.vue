@@ -1,5 +1,4 @@
 <template>
-   
   <div class="Allorder-box">
     <div class="item">
       <div class="item1">
@@ -190,7 +189,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -212,8 +210,8 @@ export default {
 }
 </script>
 <style lang="stylus">
-.layout-page
-  flex-direction: column
+// .layout-page
+//   flex-direction: column
 .Allorder-box
   display flex
   justify-content center

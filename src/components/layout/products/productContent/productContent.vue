@@ -4,13 +4,12 @@
       <div class="smallPic">
         <div style="padding-bottom: calc(0/1920*100vw); margin-top: calc(300/1920*100vw);">
           <img
-          :class="smallImg.smImg"
+            :class="smallImg.smImg"
             :style="{opacity:smallImg.activeOpacity}"
             v-for="(smallImg, imgIndex) in smallImgs"
             :src="smallImg.src" class="responsive"
             v-on:mouseover="changeBigImg(imgIndex)"
           />
-
         </div>
         <div>
           <q-side-link
@@ -25,7 +24,6 @@
       </div>
       <div class="bigPic row justify-center items-end" style="width: 58.9vw;">
         <img v-bind:src="bigImageSrc" class="responsive" />
-
       </div>
     </div>
     <div slot="right" class="row right" style="padding-top:calc(125/1920*100vw);margin-right:calc(30/1920*100vw);height:calc(100% - 260/1920*100vw);">
@@ -40,9 +38,9 @@
           <div style="width:calc(200/1920*100vw);float:right;position:relative;
           right:calc(15/1920*100vw);bottom:calc(45/1920*100vw);">
             <!-- <i class="material-icons" style="margin:0 calc(15/1920*100vw);font-size:calc(24/1920*100vw);" v-for="share in share" :key="share.id">{{share.name}}</i> -->
-            <i class="ico_like" @click.self="icoLike"></i>
-            <i class="ico_price" @click.self="ico_priced"></i>
-            <i class="ico_share" @click.self="ico_shared"></i>
+            <i class="ico_like" @click="icoLike"></i>
+            <i class="ico_price" @click="ico_priced"></i>
+            <i class="ico_share" @click="ico_shared"></i>
           </div>
           
         </div>
@@ -132,14 +130,13 @@ export default {
         {'src': 'statics/images/ProductContent/2.jpg', 'id': 'src2', 'smImg': 'smImg', 'activeOpacity': 0.5},
         {'src': 'statics/images/ProductContent/3.jpg', 'id': 'src3', 'smImg': 'smImg', 'activeOpacity': 0.5},
         {'src': 'statics/images/ProductContent/4.jpg', 'id': 'src4', 'smImg': 'smImg', 'activeOpacity': 0.5},
-
         {'src': 'statics/images/ProductContent/5.jpg', 'id': 'src5', 'smImg': 'smImg', 'activeOpacity': 0.5}
       ],
       links: [
-        {'href': '/Products/Overview', 'label': 'OVERVIEW', 'id': '1'},
-        {'href': '/Products/Gallery', 'label': 'GALLERY', 'id': '2'},
-        {'href': '/Products/TechSpec', 'label': 'TECH SPEC', 'id': '3'},
-        {'href': '/Products/Reviews', 'label': 'REVIEWS', 'id': '4'}
+        {'href': '/ProductMenu/Overview', 'label': 'OVERVIEW', 'id': '1'},
+        {'href': '/ProductMenu/Gallery', 'label': 'GALLERY', 'id': '2'},
+        {'href': '/ProductMenu/TechSpec', 'label': 'TECH SPEC', 'id': '3'},
+        {'href': '/ProductMenu/Reviews', 'label': 'REVIEWS', 'id': '4'}
       ],
       productInfs: [{
         'title': 'Huawei VR 2 Pro',
@@ -364,6 +361,7 @@ export default {
   .activeName
     border 1px solid #6dd6a9
   .checked
+    font-weight bold
     border 1px solid #6dd6a9
     color #424242 !important
   .smImg
@@ -373,6 +371,7 @@ export default {
     with calc(64/1920*100vw)
     height calc(64/1920*100vw)
   .q-btn-standard
+    // border 1px solid currentColor
     min-height 0
   .smallPic
     position fixed

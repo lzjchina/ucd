@@ -1,211 +1,220 @@
 <template>
-    <q-layout
-     ref="layout"
-     :view="layoutStore.view"
-     :left-breakpoint="layoutStore.leftBreakpoint"
-     :right-breakpoint="layoutStore.rightBreakpoint"
-     :reveal="layoutStore.reveal"
-     class="search-layout search-box"
-    >
-     <div slot="header">
-       <div class="heardTopbg" style="background: url(statics/search/images/banner/banner1.png) top center no-repeat; background-size: cover;">
+  <q-layout
+   ref="layout"
+   :view="layoutStore.view"
+   :left-breakpoint="layoutStore.leftBreakpoint"
+   :right-breakpoint="layoutStore.rightBreakpoint"
+   :reveal="layoutStore.reveal"
+   class="search-layout search-box"
+  >
+    <div slot="header">
+      <div class="heardTopbg" style="background: url(statics/search/images/banner/banner1.png) top center no-repeat; background-size: cover;">
         <div class="heardToptext">
-         <span class="heardToptext-type">/ Accessories</span><br>
-         <span class="heardToptext-name">Inspire wrist envy.</span>
+          <span class="heardToptext-type">/ Accessories</span><br>
+          <span class="heardToptext-name">Inspire wrist envy.</span>
         </div>
         <div class="heardTop-search-body">
-         <q-search class="heardTop-search" value=''/>
+          <q-search class="heardTop-search" value=''/>
         </div>
-       </div>
-     </div>
-     <q-scroll-area slot="left" style="width: 100%; height: 100%;">
-      <div class="products-layout-top">
-        <div class="second-filter-title-left">
-            <div class="search-filter-Reset">
-              <div class="filter-filter"><img src="statics/search/images/new/ico_fiter.png" style="margin-right:4px;"><span>Filter</span>
-             </div>
-              <q-btn class="filter-clear" @click="clearType">Reset</q-btn>
-            </div>
-        </div>
-        <div class="search-filter-Reset-hr"></div>
       </div>
-       <div class="products-layout">
-         <!-- 左边第1层 -->
-         <div class="products-list-title">
-         	<span class="products-title flex">Products</span>
-          <q-icon
-            :name="filter.f1.name"
-            @click="openFilter(filter.f1.state, 'f1')"
-          />
-         </div>
-         <div class="filter-type column" v-if="!filter.f1.state">
-           <ul class="column">
-             <li 
-               v-for="(item, index) in type" 
-               :key="index" 
-               @click="selectType(item)"
-               v-bind:class="{'active':item==active.type}"
-             >{{item}}</li>
-           </ul>  
-         </div>
-         <div class="search-left-hr"></div>
-          <!-- 左边第1层 end-->
-          <!-- 左边第2层 -->
-         <div class="products-list-title">
-         	<span class="products-title flex">Brand</span>
-          <q-icon
-            :name="filter.f2.name"
-            @click="openFilter(filter.f2.state, 'f2')"
-          />
-         </div>
-         <div class="filter-type column" v-if="!filter.f2.state">
-           <ul class="column">
-             <li 
-               v-for="(item, index) in type" 
-               :key="index" 
-               @click="selectType(item)"
-               v-bind:class="{'active':item==active.type}"
-             >{{item}}</li>
-           </ul>  
-         </div>
-         <div class="search-left-hr"></div>
-          <!-- 左边第2层 end-->
-          <!-- 左边第3层 -->
-         <div class="filter-color">
-           <div class="products-list-title">
-         				<span class="products-title flex">Color</span>
-                <q-icon
-                  :name="filter.f3.name"
-                  @click="openFilter(filter.f3.state, 'f3')"
-                />
-           </div>
-           <div class="select-color-body column" v-if="!filter.f3.state">
-             <div class="flex">
-               <q-btn
-                 round
-                 v-for="(item, index) in color"
-                 :key="index"
-                 :color="item"
-                 @click="selectColor(item)"
-                 v-bind:class="{'active':item==active.color}"
-                >
-                <q-icon name="ion-android-done" />
-              </q-btn>
-             </div>
-           </div>
-         </div>
-         <div class="search-left-hr"></div>
-         <!-- 左边第3层 end-->
-         <!-- 左边第4层 -->
-         <div class="products-list-title">
-         	<span class="products-title flex">Memory</span>
-            <q-icon
-              :name="filter.f4.name"
-              @click="openFilter(filter.f4.state, 'f4')"
-            />
-           </div>
-         <div class="filter-memory column" v-if="!filter.f4.state">
-           <div class="select-memory-body column">
-             <ul class="column">
-               <li
-                 v-for="(item, index) in memory"
-                 :key="index"
-                 @click="selectMemory(item)"
-                 v-bind:class="{'active':item==active.memory}"
-               >
-                 {{item}} BG
-                <!--  <q-icon name="ion-android-close" @click.stop="clearMemory" /> -->
-             </li>
-             </ul>
-           </div>
-         </div>
-         <div class="search-left-hr"></div>
-         <!-- 左边第4层 end-->
-          <!-- 左边第6层 -->
-         <div class="products-list-title">
-         	<span class="products-title flex">Products Type</span>
-            <q-icon
-              :name="filter.f5.name"
-              @click="openFilter(filter.f5.state, 'f5')"
-            />
-           </div>
-         <div class="filter-type column" v-if="!filter.f5.state">
-           <ul class="column">
-             <li 
-               v-for="(item, index) in type"
-               :key="index" 
-               @click="selectType(item)"
-               v-bind:class="{'active':item==active.type}"
-             >{{item}}</li>
-           </ul>
-           <span class="filter-type-more">More</span>  
-         </div>
-         <div class="search-left-hr"></div>
-          <!-- 左边第6层 end-->
-       </div>
-     </q-scroll-area>
-     <div class="container">
-      <div class="container-top">
-        <div class="second-filter-title-right">
-           <div class="second-filter-title-number">
+    </div>
+    <!-- 搜索导航条 -->
+    <!-- <div class="navigation" slot="navigation">
+      <div class="move">
+        <div class="products-layout-top">
+          <div class="second-filter-title-left">
+            <div class="search-filter-Reset">
+              <div class="filter-filter">
+                <img src="statics/search/images/new/ico_fiter.png" style="margin-right:4px;"><span>Filter</span>
+              </div>
+              <div class="filter-clear" @click="clearType">Reset</div>
+            </div>
+          </div>
+        </div>
+        <div class="container-top">
+          <div class="second-filter-title-right">
+            <div class="second-filter-title-number">
               <span>{{filterOfferings.length}} Results</span>
-           </div>
-           <div class="second-filter-title-select">
-            <span style="color:#666666">Sort by: </span>
-            <q-select
+            </div>
+            <div class="second-filter-title-select">
+              <span style="color:#666666">Sort by: </span>
+              <q-select
                 color="secondary"
                 v-model="select"
                 :options="options"
                 @change="typeSelect"
               />
-           </div>
+            </div>
+          </div>
         </div>
-        <div class="search-filter-Reset-hr"></div>
       </div>
-       <div class="search-offerings">
-         <router-link
-           class="offering BrightBlack"
-           v-for="(item, index) in filterOfferings"
-           :key="item.id"
-           v-if="index<current*12&&index>=(current-1)*12"
-           to="/Products"
-           tag="a"
-         >
-           <q-transition
-             appear
-             enter="fadeIn"
-             leave="fadeOut"
-           >
-             <div class="offering-box text-BrightBlack">
-               <div class="offering-img">
-                 <img
-                   width="100%"
-                   :src="item.image"
-                   :title="item.name"
-                 >
-               </div>
-               <div class="offering-text">
-                 <p class="offering-name" :title="item.name">{{ item.name }}</p>
-                 <p class="offering-price">
-                   <span style="font-weight: bold;">${{ item.price }}</span><span style="opacity: 0.4;margin-left: 8px;" :title="item.type">{{ item.type }}</span>
-                 </p>
-               </div>
-             </div>
-           </q-transition>
-         </router-link>
-       </div>
-       <center class="no-tip" v-if="filterOfferings.length === 0">
-         Sorry, the system has not found the relevant goods !
-       </center>
-       <div style="height: auto;display: flex; justify-content: center; margin-right: 20px;">
-         <r-pagination
-           :total="filterOfferings.length"
-           :display="display"
-           :current.sync="current"
-         />
-       </div>
-     </div>
-    </q-layout>
+      <div class="search-filter-Reset-hr"></div>
+    </div> -->
+    <!-- 搜索导航条 -->
+    <!-- <q-scroll-area slot="left" style="width: 100%; height: 100%;"> -->
+    <q-scroll-area slot="left" style="width: 100%; height: calc(100% - 74px);padding-top: 74px">
+      <div class="products-layout">
+        <!-- 左边第1层 -->
+        <div class="products-list-title">
+          <span class="products-title flex">Products</span>
+        <q-icon
+          :name="filter.f1.name"
+          @click="openFilter(filter.f1.state, 'f1')"
+        />
+        </div>
+        <div class="filter-type column" v-if="!filter.f1.state">
+          <ul class="column">
+            <li 
+              v-for="(item, index) in type" 
+              :key="index" 
+              @click="selectType(item)"
+              v-bind:class="{'active':item==active.type}"
+            >{{item}}</li>
+          </ul>  
+        </div>
+        <div class="search-left-hr"></div>
+        <!-- 左边第1层 end-->
+        <!-- 左边第2层 -->
+        <div class="products-list-title">
+          <span class="products-title flex">Brand</span>
+        <q-icon
+          :name="filter.f2.name"
+          @click="openFilter(filter.f2.state, 'f2')"
+        />
+        </div>
+        <div class="filter-type column" v-if="!filter.f2.state">
+          <ul class="column">
+            <li
+              v-for="(item, index) in brand"
+              :key="index"
+              @click="selectBrand(item)"
+              v-bind:class="{'active':item==active.brand}"
+            >{{item}}</li>
+          </ul>
+        </div>
+        <div class="search-left-hr"></div>
+        <!-- 左边第2层 end-->
+        <!-- 左边第3层 -->
+        <div class="filter-color">
+          <div class="products-list-title">
+            <span class="products-title flex">Color</span>
+            <q-icon
+             :name="filter.f3.name"
+             @click="openFilter(filter.f3.state, 'f3')"
+            />
+          </div>
+          <div class="select-color-body column" v-if="!filter.f3.state">
+            <div class="flex">
+              <div class="btn-border"
+                v-for="(item, index) in color"
+                :key="index"
+                @click="selectColor(item)"
+                v-bind:class="{'active':item==active.color}"
+              >
+                <q-btn
+                  round
+                  :color="item"
+                >
+                </q-btn>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="search-left-hr"></div>
+        <!-- 左边第3层 end-->
+        <!-- 左边第4层 -->
+        <div class="products-list-title">
+          <span class="products-title flex">Memory</span>
+          <q-icon
+            :name="filter.f4.name"
+            @click="openFilter(filter.f4.state, 'f4')"
+          />
+        </div>
+        <div class="filter-memory column" v-if="!filter.f4.state">
+          <div class="select-memory-body column">
+            <ul class="column">
+              <li
+                v-for="(item, index) in memory"
+                :key="index"
+                @click="selectMemory(item)"
+                v-bind:class="{'active':item==active.memory}"
+              >
+                {{item}} BG
+               <!--  <q-icon name="ion-android-close" @click.stop="clearMemory" /> -->
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="search-left-hr"></div>
+        <!-- 左边第4层 end-->
+        <!-- 左边第6层 -->
+        <div class="products-list-title">
+          <span class="products-title flex">Products Type</span>
+          <q-icon
+            :name="filter.f5.name"
+            @click="openFilter(filter.f5.state, 'f5')"
+          />
+        </div>
+        <div class="filter-type column" v-if="!filter.f5.state">
+          <ul class="column">
+            <li 
+              v-for="(item, index) in type"
+              :key="index" 
+              @click="selectType(item)"
+              v-bind:class="{'active':item==active.type}"
+            >{{item}}</li>
+          </ul>
+          <span class="filter-type-more">More</span>  
+        </div>
+        <div class="search-left-hr"></div>
+        <!-- 左边第6层 end-->
+      </div>
+    </q-scroll-area>
+    <div class="container">
+      <div class="search-offerings">
+        <router-link
+          class="offering BrightBlack"
+          v-for="(item, index) in filterOfferings"
+          :key="item.id"
+          v-if="index<current*12&&index>=(current-1)*12"
+          to="/Products"
+          tag="a"
+        >
+        <q-transition
+          appear
+          enter="fadeIn"
+          leave="fadeOut"
+        >
+          <div class="offering-box text-BrightBlack">
+            <div class="offering-img">
+              <img
+                width="100%"
+                :src="item.image"
+                :title="item.name"
+              >
+            </div>
+            <div class="offering-text">
+              <p class="offering-name" :title="item.name">{{ item.name }}</p>
+              <p class="offering-price">
+                <span style="font-weight: bold;">${{ item.price }}</span><span style="opacity: 0.4;margin-left: 8px;" :title="item.type">{{ item.type }}</span>
+              </p>
+            </div>
+          </div>
+        </q-transition>
+        </router-link>
+      </div>
+      <center class="no-tip" v-if="filterOfferings.length === 0">
+        Sorry, the system has not found the relevant goods !
+      </center>
+      <div style="height: auto;display: flex; justify-content: center; margin-right: 20px;">
+        <r-pagination
+          :total="filterOfferings.length"
+          :display="display"
+          :current.sync="current"
+        />
+      </div>
+    </div>
+  </q-layout>
 </template>
 <script>
 import {
@@ -318,12 +327,21 @@ export default {
         color: '',
         memory: ''
       },
-      type: [
-        'All',
-        'Plans',
+      products: [
         'Contract Phone',
         'Phone',
-        'Accessories'
+        'Accessories',
+        'Plans'
+      ],
+      brand: [
+        'Huawei',
+        'Others'
+      ],
+      type: [
+        'Contract Phone',
+        'Phone',
+        'Accessories',
+        'Plans'
       ],
       color: [
         'dark',
@@ -348,6 +366,11 @@ export default {
         64,
         128,
         256
+      ],
+      connection: [
+        'Airplay',
+        'Bluetooth',
+        'Wireless'
       ]
     }
   },
@@ -357,6 +380,14 @@ export default {
     },
     HotPageAdd () {
       this.banner.select = this.banner.select + 2 >= this.banner.total ? this.banner.total - 2 : this.banner.select + 2
+    },
+    selectProducts (products) {
+      this.active.products = products
+      this.current = 1
+    },
+    selectBrand (brand) {
+      this.active.brand = brand
+      this.current = 1
     },
     selectType (type) {
       this.active.type = type
@@ -375,6 +406,10 @@ export default {
     },
     clearMemory () {
       this.active.memory = ''
+      this.current = 1
+    },
+    clearBrand () {
+      this.active.brand = ''
       this.current = 1
     },
     clearType () {
@@ -455,9 +490,41 @@ export default {
 }
 </script>
 <style lang="stylus">
+.q-popover
+  box-shadow 0 0 0 white
+  border 1px solid #b2b2b2
+  .q-list
+    padding 0
+    .q-item
+      padding 0 16px
+      min-height 32px
+      min-width 140px
+      background #fff
+    .q-item.active
+      background rgba(0, 0, 0, 0)
+      color #b2b2b2
+    .q-item-label
+      font-size 14px
+      border-bottom 1px solid #e5e5e5
+      line-height 2.6
+      &:hover
+        color #b2b2b2
+      &:active
+        color #b2b2b2
 .search-box
   width 100%
   position absolute
+  .navigation
+    width 100%
+    display flex
+    justify-content center
+    align-items center
+    flex-direction column
+  .move
+    width 100%
+    display flex
+    justify-content flex-start
+    align-items center
   .products-layout-top
     height 64px
     margin-left 32px
@@ -466,10 +533,25 @@ export default {
   .container-top
     height 64px
     margin-right 32px
+    margin-left 16px
+    // padding-right 16px
+    width 83.4%
+    .material-icons
+      color rgba(0, 0, 0, 0)
+      background url('~statics/search/images/new/down.png') top center no-repeat
+      height 7px
+    .q-if-focused
+      .material-icons
+        color rgba(0, 0, 0, 0)
+        background url('~statics/search/images/new/down.png') top center no-repeat
+        height 7px
+        transform scale(1,-1)
     .second-filter-title-right
       height 63px
   .layout-header
+    margin-bottom: 74px
     box-shadow none
+    transform: translateY(0px)
   .layout-page-container.transition-generic
     padding-top 0 !important
   .q-item
@@ -500,22 +582,30 @@ export default {
     flex-direction column
     justify-content center
     align-items center
+    .q-if:before
+      height 0px
+    .q-if
+        .q-if-control-before
+          background url('~statics/images/Homepage/search.png') top center no-repeat
+          color rgba(255,255,255,0)
+          width 20px
+          height 20px
+        .q-if-control
+          font-size 17px
+          margin-right 8px
   .heardTop-search
     width calc(338/1920*100vw)
     height calc(48/1920*100vw)
     border 1px solid #e5e5e5
     color #252525
     background #fff
-    min-width 200px
-    min-height 32px
+    min-width 240px
+    min-height 38px
   .q-if
     display flex
-    flex-direction row-reverse
     padding 0
     padding-left 10px
     box-shadow 0 0 0 white
-  .material-icons
-    color #b7b7b7  
   .text-primary
     color white !important
   .layout-aside-left
@@ -523,10 +613,21 @@ export default {
   .products-layout
     margin 0 28px
     padding 0 0 0 28px
+    .q-icon
+      width 10px
+      height 10px
+      font-size 12px
+      color #b2b2b2
+      &.ion-close
+        background url('~statics/images/Homepage/close.png') top center no-repeat
+      &.ion-plus
+        background url('~statics/images/Homepage/open.png') top center no-repeat
+      &::before
+        display none
     .products-list-title
-    		display flex
-    		justify-content space-between
-    		align-items center
+      display flex
+      justify-content space-between
+      align-items center
     .products-title
       margin 0
       font-size 14px
@@ -534,11 +635,11 @@ export default {
       color #252525
       padding 16px 0
     .products-open-img
-    		padding 0 32px 0 0
+      padding 0 32px 0 0
   .filter-type-more
-  		color #6abcfc
-  		font-size 14px
-  		padding 8px 0
+      color #6abcfc
+      font-size 14px
+      padding 8px 0
   .filter-type
     display flex
     ul
@@ -553,33 +654,34 @@ export default {
         cursor pointer
         list-style-type none
   .second-filter-title
-  	width calc(100% - 72px)
+    width calc(100% - 72px)
     min-height auto
     margin 20px 36px 0
     display flex
     justify-content flex-start
     align-items center
   .second-filter-title-right
-    // width calc(100% - 72px)
-    margin 0 0 0 28px
+    margin 0 16px 0 0
     display flex
     justify-content space-between
     align-items center
     .second-filter-title-number
-      font-size calc(14/1920*100vw)
+      font-size 14px
       color #666666
+      display flex
     .second-filter-title-select
-      font-size calc(14/1920*100vw)
+      font-size 14px
       color #666666
       display flex
       align-items center
+      // padding-right 16px
       .q-if
         display flex
         flex-direction row
         padding 0 0 0 4px
         margin 0
       .q-input-target
-        font-size calc(14/1920*100vw)
+        font-size 14px
       .q-if-control
         font-size calc(24/1920*100vw)
       .q-if:before
@@ -592,43 +694,41 @@ export default {
     font-size calc(14/1920*100vw)  
   .second-filter-title-left
     width 100%
-    margin-right 28px
   .search-filter-Reset
-    width 100%
+    width 262px
     display flex
     justify-content flex-start
     align-items center
-   .filter-filter
-     font-size 14px
-     width 80px
-     border-right 1px solid #e5e5e5
-     margin 0 0 0 28px
-   .filter-clear
-     width 80px
-     color #6abcfc
-     margin-left 16px
-     span
-       text-transform none
-       justify-content flex-start
-       font-size 14px
+    .filter-filter
+      font-size 14px
+      width 80px
+      border-right 1px solid #e5e5e5
+      margin 0 0 0 28px
+    .filter-clear
+      width 80px
+      color #6abcfc
+      margin-left 16px
+      span
+        text-transform none
+        justify-content flex-start
+        font-size 14px
     .q-btn
       box-shadow 0 0 0 white
       .q-hoverable
         background transparent
   .search-filter-Reset-hr
-  	background #e5e5e5
-  	width 100%
-  	// height 1px
-    // width calc(100% - 72px)
-    min-height 1px
-    // margin 0 36px
+    width 96%
+    height 1px
+    background #e5e5e5
+    margin-bottom 1.4%
+    margin-top -10px
   .search-left-hr
-  		background #e5e5e5
-  		width 110%
-  		height 1px
-  		margin 16px 0 16px -16%
+      background #e5e5e5
+      width 110%
+      height 1px
+      margin 16px 0 16px -16%
   .select-color-body
-  		width 170px
+      width 170px
   .filter-color
     .products-title
       padding 16px 0
@@ -636,13 +736,19 @@ export default {
       padding 24px 0
       color #666
     .select-color-body
-      .q-btn-round.q-btn-standard
-        width 24px
-        height 24px
-        min-height 24px
-        margin 8px
-        font-size 24px !important
-        box-shadow 0px 1px 1px #272727 inset
+      .btn-border
+        width 32px
+        height 32px
+        border-radius 50px
+        border 1px solid #fff
+        display flex
+        justify-content center
+        align-items center
+        margin 4px
+        &:hover
+          border 1px solid #e7e7e7
+        &.active
+          border 1px solid #7bdab1
         &:nth-child(1)
           margin-left 0
         &:nth-child(5)
@@ -657,17 +763,14 @@ export default {
           margin-left 0
         &:nth-child(25)
           margin-left 0
-      .bg-white .q-icon
-        display none
-        color #000
-      .q-icon
-        display none
-        color #fff
-      .active
-        .q-icon
-          display flex
+      .q-btn-round.q-btn-standard
+        width 24px
+        height 24px
+        min-height 24px
+        font-size 24px !important
+        box-shadow 0px 1px 2px #8d8d8d inset
   .filter-memory
-  		ul
+      ul
         padding 0
         font-size calc(14/1920*100vw)
       .active
@@ -772,11 +875,11 @@ export default {
         flex-direction column
         align-items center
         width 100%
-        border 1px solid #e5e5e5
+        border 2px solid #e5e5e5
         &:hover
-          border 1px solid #252525
+          border 2px solid #252525
         &.active
-          border 1px solid #252525
+          border 2px solid #252525
         .offering-text
           width 100%
           display flex
@@ -818,4 +921,6 @@ export default {
     padding 0
     li
       list-style none
+.q-popover
+  left calc(100vw - 208px) !important
 </style>

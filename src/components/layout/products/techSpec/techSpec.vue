@@ -1,5 +1,5 @@
 <template>
-  <div class="column box justify-center">
+  <div class="column techSpecbox justify-center">
     <div class="item row float-left" v-for="finish in Finish">
       <span>{{finish.title}}</span>
       <div class="row" >
@@ -209,7 +209,7 @@ export default {
 }
 </script>
 <style lang="stylus">
-.box
+.techSpecbox
   width 86vw
   padding 34px 0
   color #252525

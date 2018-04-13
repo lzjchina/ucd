@@ -165,7 +165,7 @@ export default {
   justify-content center
   flex-direction column
   align-items center
-  margin-top calc(88/1920*100vw)
+  padding-top 88px
 .payment-header
   width 82%
   height 64px
@@ -174,7 +174,7 @@ export default {
 .payment-title
   width 100%
   color #252525
-  font-size calc(24/1920*100vw)
+  font-size 24px
   font-weight bold
 .payment-item
   width 82%
@@ -193,16 +193,16 @@ export default {
   .Used-Payment-Method-title
     display flex
     align-items center
-    height calc(64/1920*100vw)
+    height calc(40/1920*100vw)
     min-height 40px
-    font-size calc(14/1920*100vw)
+    font-size 14px
     color #b2b2b2
     margin 0 0 0 2%
   .Used-Payment-Method-Choice
     display flex
     flex-direction row
     flex-wrap wrap
-    margin 0 0 1% 2%
+    margin 0 0 0 2%
   .Used-Payment-Method-img
     width calc(290/1920*100vw)
     height calc(146/1920*100vw)
@@ -232,9 +232,9 @@ export default {
   .Payment-Method-title
     display flex
     align-items center
-    height calc(64/1920*100vw)
+    height calc(40/1920*100vw)
     min-height 40px
-    font-size calc(14/1920*100vw)
+    font-size 14px
     color #b2b2b2
     margin 0 0 0 2%
   .Payment-Method-Choice
@@ -260,6 +260,13 @@ export default {
       border 1px solid #6dd6a9
 .payment-footer-footer
   background #fff
+  color #252525
+  display flex
+  justify-content center
+  align-items center
+  position fixed
+  bottom 0px
+  font-family Helvetica Neue !important
 .payment-footer-data
   display flex
   align-items center
@@ -296,6 +303,7 @@ export default {
     width calc(786/1920*100vw)
     min-width 200px
     color #252525
+    margin-right 10px
   .payment-footer-text1
     font-size calc(16/1920*100vw)
   .payment-footer-text2
@@ -334,7 +342,7 @@ export default {
     width calc(320/1920*100vw)
     min-width 32px
     height calc(48/1920*100vw)
-    min-height 24px
+    min-height 32px
     color #fff
     background #6dd6a9
     border-radius 50px

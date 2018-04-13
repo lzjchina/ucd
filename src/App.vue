@@ -18,7 +18,7 @@ export default {
   methods: {
     paperScroll: function (event) {
       var routerPath = this.$route.fullPath
-      if (routerPath === '/Products' && event.deltaY > 10 && (routerPath.indexOf('/Overview') < 0 && routerPath.indexOf('/Gallery') < 0 && routerPath.indexOf('/TechSpec') < 0 && routerPath.indexOf('/Reviews'))) {
+      if (routerPath.indexOf('/Products') >= 0 && event.deltaY > 10) {
         var flag = true
         var target = event.target
         for (var i = 0; i < 100; i++) {
@@ -38,7 +38,7 @@ export default {
         if (flag) {
           if (this.prevRouter === '') {
             this.$router.push({
-              path: '/Products/Overview'
+              path: '/ProductMenu/Overview'
             })
           }
           else {
@@ -48,7 +48,7 @@ export default {
           }
         }
       }
-      if (routerPath === '/Products/Overview' || routerPath === '/Products/Gallery' || routerPath === '/Products/TechSpec' || routerPath === '/Products/Reviews') {
+      else if (routerPath === '/ProductMenu/Overview' || routerPath === '/ProductMenu/Gallery' || routerPath === '/ProductMenu/TechSpec' || routerPath === '/ProductMenu/Reviews') {
         if (event.view.scrollY === 0 && event.deltaY < -10) {
           this.prevRouter = routerPath
           this.$router.push({
@@ -56,9 +56,6 @@ export default {
           })
         }
       }
-      // this.$router.push({
-      //   path: '/Gallery'
-      // })
     }
   }
 }

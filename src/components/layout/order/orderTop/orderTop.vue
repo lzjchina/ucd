@@ -103,4 +103,3 @@ export default {
     .q-tabs-head
       padding 0 0 0 0
 </style>
-

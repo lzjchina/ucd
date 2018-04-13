@@ -1,52 +1,24 @@
 <template>
   <div class="box">
-  <div class="item1">
-  <div class="home-banner">
-     <router-link
-        class="banner-image"
-        v-for="(item, index) in banner.items"
-        :key="item.id"
-        v-if="index==parseInt(banner.select)"
-        to="Products"
-        tag="a"
-        >
-        <q-transition
-          appear
-          enter="fadeIn"
-          leave="fadeOut"
-        >
-          <img
-            height="100%"
-            :src="item.image"
-            :title="item.name"
-            >
-        </q-transition>
-        <div class="banner-title">
-          <p class="banner-name">{{item.name}}</p>
-          <p><span class="banner-price">{{item.price}}</span> <span class="banner-category">{{item.type}}</span></p>
-          <q-btn class="banner-btn">BUY</q-btn>
-        </div>
-   </router-link>
-   <div class="banner-icon">
-      <div class="text">
-        <span class="text1">{{ parseInt(banner.select)+1 }}</span>
-        <hr />
-        <span class="text2">{{ Math.ceil(parseInt(banner.total)) }}</span>
-      </div>
-      <div class="icon-img">
-        <img
-          class="icon-left"
-          src="statics/images/Homepage/L.png"
-          @click.stop="HotPageSub"
-          />
-        <img
-          class="icon-right"
-          src="statics/images/Homepage/R.png"
-          @click.stop="HotPageAdd"
-          />
-      </div>
-  </div>
-  </div>
+    <div class="item1">
+      <q-gallery-carousel
+      :src="silde"
+      class="imagesbox responsive"
+      />
+    </q-gallery-carousel>
+    <router-link
+    v-for="(item, index) in banner.items"
+    :key="item.id"
+    v-if="index==parseInt(banner.select)"
+    to="/Products"
+    tag="a"
+    >
+    <div class="banner-title">
+      <p class="banner-name">{{item.name}}</p>
+      <p><span class="banner-price">{{item.price}}</span> <span class="banner-category">{{item.type}}</span></p>
+      <q-btn class="banner-btn">BUY</q-btn>
+    </div>
+  </router-link>
 </div>
 <div class="item2">
   <div class="products-title">
@@ -130,16 +102,12 @@
     </p>
     <div class="signup-input">
       <div class="signup-input2">
-        <input name="searchkey" type="text" value="Enter your Phone Number" onFocus="this.value=''" class="sign-input"> 
-        <!-- <q-input v-model="text" inverted class="sign-input"/> -->
-        <q-btn class="signup-btn1">Sign up <img src="statics/images/Homepage/right.png" style="padding:0 0 0 8%; width: 12.4% "></q-btn>
+        <q-input v-model="text" inverted class="sign-input"/>
+        <q-btn class="signup-btn1">Sign up <img src="statics/images/Homepage/right.png" style="padding:0 0 0 8%; width: 14% "></q-btn>
       </div>
     </div>
   </div>
 </div>
-    <q-toolbar slot="footer" class="home-footer">
-      <img src="statics/images/Homepage/bottom.png" width="100%"> 
-    </q-toolbar>
 </div>
 </template>
 
@@ -151,8 +119,6 @@ import {
   QTransition,
   QInput,
   QIcon,
-  QLayout,
-  QToolbar,
   QToggle
 } from 'quasar'
 import homeBanner from 'data/home-banner.json'
@@ -166,11 +132,10 @@ export default {
     QTransition,
     QInput,
     QIcon,
-    QLayout,
-    QToolbar,
     QToggle
   },
   data () {
+    // console.log(banner)
     return {
       banner: homeBanner.data,
       products: newProducts.data,
@@ -184,6 +149,14 @@ export default {
       error: true,
       error2: false,
       loading: true,
+      // silde: homeBanner.data.items.map(function (item, index, arr) {
+      //   // console.log(index)
+      //   // console.log(item.image)
+      //   // console.log(arr.length)
+      //   if (index >= arr.length - 3) {
+      //     return item.image
+      //   }
+      // })
       silde: [
         homeBanner.data.items[homeBanner.data.items.length - 1].image,
         homeBanner.data.items[homeBanner.data.items.length - 2].image,
@@ -194,14 +167,6 @@ export default {
     }
   },
   methods: {
-    HotPageSub () {
-      this.banner.select = this.banner.select - 1 < 0 ? 0 : this.banner.select - 1
-      console.log(1)
-    },
-    HotPageAdd () {
-      this.banner.select = this.banner.select + 1 >= this.banner.total - 1 ? this.banner.total - 1 : this.banner.select + 1
-      console.log(2)
-    },
     addGoods (item) {
       // sessionStorage.setItem('goods', JSON.stringify([]))
       let array = item
@@ -236,18 +201,6 @@ export default {
   justify-content center
   .item1
     width 100%
-    position relative
-    .home-banner
-      width 100%
-      height 100vh
-      display flex
-      justify-content center
-      overflow hidden
-    .banner-image
-      width 100%
-      display flex
-      justify-content center
-      align-items center
     .imagesbox .q-carousel-toolbar
       display none
     .imagesbox .q-icon .material-icons
@@ -255,58 +208,11 @@ export default {
       height 80px
     .q-carousel-left-button i, .q-carousel-right-button i
       padding 8px
-    .banner-icon
-      width 108px
-      position absolute
-      z-index 100
-      display flex
-      justify-content center
-      align-items center
-      flex-direction column
-      align-self flex-end
-      right calc(64 / 1920 * 100vw)
-      bottom calc(80 / 1920 * 100vw)
-      .icon-img
-        display flex
-        flex-direction row
-        justify-content center
-        align-items center
-        padding 8% 0
-        >img
-          cursor pointer
-      .icon-left
-        padding 0 6%
-      .icon-right
-        padding 0 6%
-      .text
-        width 100%
-        color #252525
-        display flex
-        justify-content space-between
-        align-items center
-        font-family Helvetica Neue
-        font-weight bold
-        font-size 14px
-        >span
-          display flex
-        hr
-          width 64px
-          color white
-          height calc(2 / 1920 * 100vw)
-          border-width 0px
-          background #fff
-        .text1
-          padding 0 6%
-        .text2
-          color #fff
-          padding 0 6%
     .banner-title
-      font-family Helvetica Neue
       position absolute
       z-index 100
-      align-self flex-end
-      left calc(64/1920*100vw)
-      padding-bottom calc(80/1920*100vw)
+      height calc(300/1920*100vw)
+      margin -15.6% 0 0 3%
     .banner-name
       font-size calc(64/1920*100vw)
       font-weight bold
@@ -320,8 +226,6 @@ export default {
       color #fff
       margin-left calc(24/1920*100vw)
     .banner-btn
-      font-family Helvetica Neue !important
-      font-weight bold
       font-size calc(14/1920*100vw)
       color #252525
       background white
@@ -329,8 +233,9 @@ export default {
       height calc(52/1920*100vw)
       border-radius 50px
       opacity 0.80
-      box-shadow 0px 0px 0px #fff
+      box-shadow:0px 0px 0px #fff
       margin 3.2% 0 0 0
+      font-family 'Myriad Pro'
   .item2
     display flex
     flex-direction column
@@ -338,14 +243,13 @@ export default {
     align-items flex-start 
     width 100%
     .products-title
-      display flex
-      justify-content center
+      display: flex;
+      justify-content: center;
       width 100%
       font-weight bold
       font-size calc(24/1920*100vw)
       color #252525
       .products-title1
-        font-family Helvetica Neue
         width 81.6%
         font-weight bold
         font-size calc(24/1920*100vw)
@@ -358,12 +262,12 @@ export default {
       align-items flex-start
       width 100%
     .new-products
-      font-family Helvetica Neue
       width 18%
       display flex
       flex-direction column
       justify-content center
       align-items flex-start 
+      // border 1px solid #f1f1f1
       border 2px solid transparent
       margin 0.8% 1.5% 0.8% 1.5%
       &:hover
@@ -404,7 +308,6 @@ export default {
       color #252525
     .featured-title1
         width 81.6%
-        font-family Helvetica Neue !important
         font-weight bold
         font-size calc(24/1920*100vw)
         color #252525
@@ -446,7 +349,6 @@ export default {
       justify-content center
       align-items center
     .featured-body
-      font-family Helvetica Neue !important
       width calc(324/1920*100vw)
     .featured-name
       font-size calc(24/1920*100vw)
@@ -472,39 +374,30 @@ export default {
       color #b2b2b2
       margin-bottom calc(48/1920*100vw)
       line-height calc(24/1920*100vw)
-      display -webkit-box
-      /* autoprefixer: off */  
-      -webkit-box-orient: vertical;  
-      /* autoprefixer: on */  
-      -webkit-line-clamp 3
-      overflow hidden
     .featured-btn1
       width calc(112/1920*100vw)
       height calc(36/1920*100vw)
       background #fff
       border 1px solid #e5e5e5
       border-radius 50px
-      font-size calc(14/1920*100vw)
+      font-size calc(12/1920*100vw)
       color #252525
       box-shadow 0 0 0 white
+      font-weight normal
       min-width 72px
       min-height 24px
-      font-family Helvetica Neue !important
-      font-weight bold
     .featured-btn2
       width calc(80/1920*100vw)
       height calc(36/1920*100vw)
       background #252525
       border-radius 50px
-      font-size calc(14/1920*100vw)
+      font-size calc(12/1920*100vw)
       color #fff
       box-shadow 0 0 0 white
       margin-left calc(24/1920*100vw)
       font-weight normal
       min-width 54px
       min-height 24px
-      font-family Helvetica Neue !important
-      font-weight bold
   .see-all
     display flex
     justify-content center
@@ -518,13 +411,13 @@ export default {
       height calc(64/1920*100vw)
       border-radius 50px
       font-weight normal
-      margin 3.2% 0 0 0
+      margin 0 0 3.2% 0
       min-width 180px
       box-shadow 0 0 0 white
   .bottom-hr
     width 100%
     height 1px
-    margin 3.2% 0
+    margin 0 0 3.2% 0
     display flex
     justify-content center
     .bottom-hr2
@@ -535,7 +428,6 @@ export default {
     display flex
     justify-content center
     align-items flex-start
-    font-family Helvetica Neue !important
     .sign-up
       width 81.2%
     .sign-title
@@ -564,7 +456,7 @@ export default {
       background #fff !important
       border-radius 50px
       border 1px solid #b2b2b2
-      margin 1% 0 1% 0
+      margin 6% 0 6% 0
     .sign-input
       width calc(360/1920*100vw)
       height calc(50/1920*100vw)
@@ -573,8 +465,6 @@ export default {
       font-size calc(14/1920*100vw)
       box-shadow 0 0 0 white
       margin 0 0 0 6%
-      border 0
-      outline none
     .signup-btn1
       width calc(136/1920*100vw)
       height calc(64/1920*100vw)
@@ -587,14 +477,6 @@ export default {
       min-width 80px
       border-radius 0 50px 50px 0
       padding 0
-  .home-footer
-    margin 0
-    background #fff
-    display flex
-    justify-content center
-    margin-top calc(76/1920*100vw)
-  .layout-footer
-    box-shadow 0 0 0 white
   .q-if-inverted .q-if-control
     color #000
   .q-if-dark .q-input-target
