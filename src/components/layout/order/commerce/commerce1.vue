@@ -52,7 +52,7 @@
             </div>
           </div>
         </div>
-        <table class="order" cellspacing="0" cellpadding="0" v-for="item in order">
+        <table class="order" cellspacing="0" cellpadding="0">
           <thead>
             <tr class="title">
               <td><strong>Uncompleted Order</strong></td>
@@ -68,10 +68,10 @@
                       <th colspan="7">
                         <div class="head">
                           <div class="item1-left">
-                          <span class="item1-title1">Created At: </span><span class="item1-data">{{item.created}}</span>
+                          <span class="item1-title1">Created At: </span><span class="item1-data">2018/03/08 05:39:00</span>
                           </div>
                           <div class="item1-left">
-                          <span class="item1-title1">Order ID: </span><span class="item1-data">{{item.id}}</span>
+                          <span class="item1-title1">Order ID: </span><span class="item1-data">100001600000003</span>
                            </div>
                           <div class="item1-online">
                           <img src="~statics/MyCommerce/ico_Online.png" style="display: inline-block; vertical-align: middle; width: calc(20/1920*100vw); height: calc(20/1920*100vw); margin-right:4px " ><span class="item1-data">Online</span>
@@ -85,33 +85,33 @@
                   </thead>
                   <tbody class="tableMain">
                     <!-- 1 -->
-                    <tr class="tableMainTr" v-for="good in item.goods">
+                    <tr class="tableMainTr">
                       <td class="commereTd1">
-                        <img :src="good.imgUrl" class="commereTd1Img">
+                        <img src="~statics/phone.png" class="commereTd1Img">
                       </td>
                       <td class="tdBorderBottom tdPd15">
                         <div>
-                          <span class="item2-name">{{good.name}}</span><br>
-                          <span class="item2-data">{{good.detail1}}</span><br>
-                          <span class="item2-data">{{good.detail2}}</span><br>
-                          <span class="item2-data">{{good.detail3}}</span>
+                          <span class="item2-name">Apple iPhone X + 198 Bundle</span><br>
+                          <span class="item2-data">Memory: 256 GB</span><br>
+                          <span class="item2-data">Primary: 198 Bundle</span><br>
+                          <span class="item2-data">Color: Space gray</span>
                         </div>
                       </td>
                       <td class="tdBorderBottom tdPd15">
                         <div class="td3-text" >
                           <span class="td3-text-Upfront">Upfront Price</span><br>
-                          <span class="td3-text-price">${{good.upfront}}</span>
+                          <span class="td3-text-price">$1149.00</span>
                         </div>
                       </td>
                       <td class="tdBorderBottom tdPd15">
                         <div class="td4-text">
                           <span class="td4-text-Upfront">Monthly Fee</span><br>
-                          <span class="td4-text-price">${{good.monthly}}</span>
+                          <span class="td4-text-price">$198.00</span>
                         </div>
                       </td>
                       <td class="tdBorderBottom tdPd15">
                         <div class="item2-text4">
-                          <span class="item2-Number">× {{good.number}}</span>
+                          <span class="item2-Number">× 1</span>
                         </div>
                       </td>
                       <td rowspan="3" class="tdBorderLeft">
@@ -131,7 +131,7 @@
                       </td>
                     </tr>
                     <!-- 2 -->
-<!--                     <tr class="tableMainTr">
+                    <tr class="tableMainTr">
                       <td class="commereTd1">
                         <img src="~statics/phone.png"class="commereTd1Img">
                       </td>
@@ -160,9 +160,9 @@
                           <span class="item2-Number">× 1</span>
                         </div>
                       </td>
-                    </tr> -->
+                    </tr>
                     <!-- 3 -->
-                    <!-- <tr class="tableMainTr">
+                    <tr class="tableMainTr">
                       <td class="commereTd1">
                         <img src="~statics/phone.png" class="commereTd1Img">
                       </td>
@@ -191,7 +191,7 @@
                           <span class="item2-Number">× 1</span>
                         </div>
                       </td>
-                    </tr> -->
+                    </tr>
                   </tbody>
                 </table>
               </td>

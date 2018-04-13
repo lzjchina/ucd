@@ -125,7 +125,7 @@ export default {
           'qlist': [
             {
               'id': '1',
-              'avatar': './statics/images/Reviews/avatar1.png',
+              'avatar': 'statics/images/Reviews/avatar1.png',
               'label': 'border',
               'sublabel': '2018-3-5 20:35'
             }
@@ -150,7 +150,7 @@ export default {
           'qlist': [
             {
               'id': '2',
-              'avatar': './statics/images/Reviews/avatar1.png',
+              'avatar': 'statics/images/Reviews/avatar1.png',
               'label': 'border',
               'sublabel': '2018-3-5 20:35'
             }
@@ -175,7 +175,7 @@ export default {
           'qlist': [
             {
               'id': '3',
-              'avatar': './statics/images/Reviews/avatar1.png',
+              'avatar': 'statics/images/Reviews/avatar1.png',
               'label': 'border',
               'sublabel': '2018-3-5 20:35'
             }
@@ -200,7 +200,7 @@ export default {
           'qlist': [
             {
               'id': '4',
-              'avatar': './statics/images/Reviews/avatar1.png',
+              'avatar': 'statics/images/Reviews/avatar1.png',
               'label': 'border',
               'sublabel': '2018-3-5 12:35'
             }
@@ -225,7 +225,7 @@ export default {
           'qlist': [
             {
               'id': '5',
-              'avatar': './statics/images/Reviews/avatar1.png',
+              'avatar': 'statics/images/Reviews/avatar1.png',
               'label': 'border',
               'sublabel': '2018-3-5 20:35'
             }
@@ -250,7 +250,7 @@ export default {
           'qlist': [
             {
               'id': '6',
-              'avatar': './statics/images/Reviews/avatar1.png',
+              'avatar': 'statics/images/Reviews/avatar1.png',
               'label': 'border',
               'sublabel': '2018-3-5 20:35'
             }
@@ -275,7 +275,7 @@ export default {
           'qlist': [
             {
               'id': '7',
-              'avatar': './statics/images/Reviews/avatar1.png',
+              'avatar': 'statics/images/Reviews/avatar1.png',
               'label': 'border',
               'sublabel': '2018-3-5 20:35'
             }
@@ -300,7 +300,7 @@ export default {
           'qlist': [
             {
               'id': '8',
-              'avatar': './statics/images/Reviews/avatar1.png',
+              'avatar': 'statics/images/Reviews/avatar1.png',
               'label': 'border',
               'sublabel': '2018-3-5 20:35'
             }
@@ -325,7 +325,7 @@ export default {
           'qlist': [
             {
               'id': '9',
-              'avatar': './statics/images/Reviews/avatar1.png',
+              'avatar': 'statics/images/Reviews/avatar1.png',
               'label': 'border',
               'sublabel': '2018-3-5 20:35'
             }
@@ -350,7 +350,7 @@ export default {
           'qlist': [
             {
               'id': '10',
-              'avatar': './statics/images/Reviews/avatar1.png',
+              'avatar': 'statics/images/Reviews/avatar1.png',
               'label': 'border',
               'sublabel': '2018-3-5 20:35'
             }
@@ -375,7 +375,7 @@ export default {
           'qlist': [
             {
               'id': '11',
-              'avatar': './statics/images/Reviews/avatar1.png',
+              'avatar': 'statics/images/Reviews/avatar1.png',
               'label': 'border',
               'sublabel': '2018-3-5 20:35'
             }
@@ -400,7 +400,7 @@ export default {
           'qlist': [
             {
               'id': '12',
-              'avatar': './statics/images/Reviews/avatar1.png',
+              'avatar': 'statics/images/Reviews/avatar1.png',
               'label': 'border',
               'sublabel': '2018-3-5 20:35'
             }
