@@ -28,27 +28,27 @@
           </div>
           <div class="balance">
             <div class="recharge">
-              <div class="block"></div>
+              <!-- <div class="block"></div> -->
               <img src="statics/MyCommerce/ico_Shape1.png" />
-              <div class="block"></div>
+              <!-- <div class="block"></div> -->
               <span>Recharge Blance<br /><strong>$100</strong></span>
-              <div class="block"></div>
+              <!-- <div class="block"></div> -->
             </div>
             <div class="horizon"></div>
             <div class="promotional">
-              <div class="block"></div>
+              <!-- <div class="block"></div> -->
               <img src="statics/MyCommerce/ico_Shape2.png" />
-              <div class="block"></div>
+              <!-- <div class="block"></div> -->
               <span>Promotional Blance<br /><strong>$100</strong></span>
-              <div class="block"></div>
+              <!-- <div class="block"></div> -->
             </div>
             <div class="horizon"></div>
             <div class="cash">
-              <div class="block"></div>
+              <!-- <div class="block"></div> -->
               <img src="statics/MyCommerce/ico_Shape3.png" />
-              <div class="block"></div>
+              <!-- <div class="block"></div> -->
               <span>Cash Coupon<br /><strong>$100</strong></span>
-              <div class="block"></div>
+              <!-- <div class="block"></div> -->
             </div>
           </div>
         </div>
@@ -59,7 +59,7 @@
               <td><span>View All Orders</span></td>
             </tr>
           </thead>
-          <tbody>
+          <tbody style="overflow:hidden;">
             <tr>
               <td colspan="2">
                 <table cellpadding="0" cellspacing="0">
@@ -85,7 +85,7 @@
                   </thead>
                   <tbody class="tableMain">
                     <!-- 1 -->
-                    <tr class="tableMainTr" v-for="good in item.goods">
+                    <tr class="tableMainTr" v-for="(good, index) in item.goods">
                       <td class="commereTd1">
                         <img :src="good.imgUrl" class="commereTd1Img">
                       </td>
@@ -114,13 +114,13 @@
                           <span class="item2-Number">× {{good.number}}</span>
                         </div>
                       </td>
-                      <td rowspan="3" class="tdBorderLeft">
+                      <td v-if="index < 1" :rowspan="item.goods.length" class="tdBorderLeft">
                         <div class="td6-text">
                           <span class="td6-text-Upfront">Upfront Price</span><br>
                           <span class="td6-text-price">$1149.00</span>
                         </div>
                       </td>
-                      <td rowspan="3" class="tdBorderLeft">
+                      <td v-if="index < 1" :rowspan="item.goods.length" class="tdBorderLeft">
                         <div>
                           <div class="third-payment">
                             <span class="third-payment-text">Waiting for payment</span><br>
@@ -130,68 +130,6 @@
                         </div>
                       </td>
                     </tr>
-                    <!-- 2 -->
-<!--                     <tr class="tableMainTr">
-                      <td class="commereTd1">
-                        <img src="~statics/phone.png"class="commereTd1Img">
-                      </td>
-                      <td class="tdBorderBottom tdPd15">
-                        <div>
-                          <span class="item2-name">Apple iPhone X + 198 Bundle</span><br>
-                          <span class="item2-data">Memory: 256 GB</span><br>
-                          <span class="item2-data">Primary: 198 Bundle</span><br>
-                          <span class="item2-data">Color: Space gray</span>
-                        </div>
-                      </td>
-                      <td class="tdBorderBottom tdPd15">
-                        <div class="td3-text">
-                          <span class="td3-text-Upfront">Upfront Price</span><br>
-                          <span class="td3-text-price">$1149.00</span>
-                        </div>
-                      </td>
-                      <td class="tdBorderBottom tdPd15">
-                        <div class="td4-text">
-                          <span class="td4-text-Upfront">Monthly Fee</span><br>
-                          <span class="td4-text-price">$198.00</span>
-                        </div>
-                      </td>
-                      <td class="tdBorderBottom tdPd15">
-                        <div class="item2-text4">
-                          <span class="item2-Number">× 1</span>
-                        </div>
-                      </td>
-                    </tr> -->
-                    <!-- 3 -->
-                    <!-- <tr class="tableMainTr">
-                      <td class="commereTd1">
-                        <img src="~statics/phone.png" class="commereTd1Img">
-                      </td>
-                      <td class="tdBorderBottom tdPd15">
-                        <div>
-                          <span class="item2-name">Apple iPhone X + 198 Bundle</span><br>
-                          <span class="item2-data">Memory: 256 GB</span><br>
-                          <span class="item2-data">Primary: 198 Bundle</span><br>
-                          <span class="item2-data">Color: Space gray</span>
-                        </div>
-                      </td>
-                      <td class="tdBorderBottom tdPd15">
-                        <div class="td3-text">
-                          <span class="td3-text-Upfront">Upfront Price</span><br>
-                          <span class="td3-text-price">$1149.00</span>
-                        </div>
-                      </td>
-                      <td class="tdBorderBottom tdPd15">
-                        <div class="td4-text">
-                          <span class="td4-text-Upfront">Monthly Fee</span><br>
-                          <span class="td4-text-price">$198.00</span>
-                        </div>
-                      </td>
-                      <td class="tdBorderBottom tdPd15">
-                        <div class="item2-text4">
-                          <span class="item2-Number">× 1</span>
-                        </div>
-                      </td>
-                    </tr> -->
                   </tbody>
                 </table>
               </td>
@@ -444,23 +382,8 @@
           </div>
 
           <div class="search-hot-main">
-            <div class="search-hot-box">
-              <a class="search-hot-img"></a>
-              <a class="search-hot-img"></a>
-              <a class="search-hot-img"></a>
-              <a class="search-hot-img"></a>
-              <a class="search-hot-img"></a>
-              <a class="search-hot-img"></a>
-              <a class="search-hot-img"></a>
-              <a class="search-hot-img"></a>
-              <a class="search-hot-img"></a>
-              <a class="search-hot-img"></a>
-              <a class="search-hot-img"></a>
-              <a class="search-hot-img"></a>
-              <a class="search-hot-img"></a>
-              <a class="search-hot-img"></a>
-              <a class="search-hot-img"></a>
-              <a class="search-hot-img"></a>
+            <div class="search-hot-box" v-bind:style="recommendationStyle">
+              <a class="search-hot-img" v-for="item in banner.items">{{item.id}}</a>
             </div>
           </div>
 
@@ -541,6 +464,10 @@ export default {
   data () {
     return {
       banner: Recommendation.data,
+      recommendationLeft: 0,
+      recommendationStyle: {
+        left: 'calc((((-270 * 0) / 1920) * 100vw) - (0 * 30px))'
+      },
       user: {
         name: 'Sample Userid',
         level: 5,
@@ -601,11 +528,28 @@ export default {
   },
   methods: {
     HotPageSub () {
-      this.banner.select = this.banner.select - 4 < 0 ? 0 : this.banner.select - 4
+      // this.banner.select = this.banner.select - 4 < 0 ? 0 : this.banner.select - 4
+      var vw = window.innerWidth / 100
+      var boxWidth = (1483 / 1920) * 100 * vw
+      var itemWidth = (270 / 1920) * 100 * vw + 30
+      var moveTime = Math.floor((boxWidth + 30) / itemWidth)
+      this.recommendationLeft < moveTime ? this.recommendationLeft = 0 : this.recommendationLeft -= moveTime
+      this.recommendationStyle.left = 'calc((((-270 * ' + this.recommendationLeft + ') / 1920) * 100vw) - (' + this.recommendationLeft + ' * 30px))'
     },
     HotPageAdd () {
-      console.log(this.banner.select)
-      this.banner.select = this.banner.select + 4 >= this.banner.total ? this.banner.total - 4 : this.banner.select + 4
+      // box宽度
+      // calc(1483 / 1920 * 100vw)
+      // 单个的宽度
+      // calc((((-270 * time) / 1920) * 100vw) - (time * 30px))
+      var vw = window.innerWidth / 100
+      var boxWidth = (1483 / 1920) * 100 * vw
+      var itemWidth = (270 / 1920) * 100 * vw + 30
+      var moveTime = Math.floor((boxWidth + 30) / itemWidth)
+      this.recommendationLeft + (moveTime * 2) > this.banner.items.length ? this.recommendationLeft = this.banner.items.length - moveTime : this.recommendationLeft += moveTime
+      // if (this.recommendationLeft > this.banner.items.length - moveTime) {
+      //   this.recommendationLeft = this.banner.items.length - moveTime
+      // }
+      this.recommendationStyle.left = 'calc((((-270 * ' + this.recommendationLeft + ') / 1920) * 100vw) - (' + this.recommendationLeft + ' * 30px))'
     }
   }
 }
@@ -620,13 +564,14 @@ export default {
     .user
       margin-bottom 30px
       display flex
+      width 100%
       >div
         border 1px solid #c5c5c5
         padding 15px 0px
       .information
         max-width 660px
-        flex-grow 6
-        flex-shrink 6
+        // flex-grow 6
+        flex-shrink 0
         margin-right 12px
         display flex
         >div
@@ -648,6 +593,7 @@ export default {
           min-width: 120px
           padding-top 40px
           font-size 12px
+          margin-right 10px
           .name
             height 18px
             font-weight bold
@@ -738,25 +684,35 @@ export default {
             color #fff
             font-size 10px
       .balance
-        flex-grow 8
-        flex-shrink 8
+        width 100%
+        // flex-grow 8
+        // flex-shrink 8
         display flex
+        align-items center
+        justify-content space-around
+        // padding 0 36px
         >.recharge,
         >.promotional,
         >.cash
-          flex-grow 1
-          flex-shrink 1
-          margin 39px auto
+          // flex-grow 1
+          // flex-shrink 0
+          // margin 39px auto
+          // width calc(290 / 1920 * 100vw)
+          width calc((100% - 2px) / 3)
+          max-width 288px
           height 50px
           display flex
+          justify-content center
           >img
             flex-grow 0
             flex-shrink 0
             width 50px
             height 50px
+            margin-right 4.6% * 3
+            // margin-right calc(40 / 1920 * 100vw)
           >span
             display block
-            width 120px
+            // width 120px
             flex-grow 0
             flex-shrink 0
             font-size: 12px
@@ -998,16 +954,18 @@ export default {
     .orderItem:last-child
       border-bottom none
     .head
+      min-width 870px
       display flex
       justify-content flex-start
       align-items stretch
       line-height 48px
       height 48px
+      flex-wrap no-wrap
       // width 94%
       margin 0px 35px 0 32px
       border-bottom 1px solid #e5e5e5
     .item1-left
-      min-width 200px
+      // min-width 200px
     .item1-title1
       color #b2b2b2
       font-size calc(14/1920*100vw)
@@ -1024,7 +982,8 @@ export default {
       min-width 70px
     .item1-online
       min-width 100px
-      width calc(890/1920*100vw)
+      text-align left
+      width calc(860/1920*100vw)
     .body
       display flex
       justify-content flex-start
@@ -1176,25 +1135,35 @@ export default {
                 display flex
                 flex-direction row
   @media (max-width: 1366px)
-    .layout-page
-      >.layout
-        >.layout-page-container
-          padding-right: 0px
-          >.layout-page
-            >.main
-              .user
-                height 350px
-                display flex
-                flex-direction column
-                >div
-                  height 160px
-                >.information
-                  width 100%
-                  max-width none
-                  >.detail
-                    max-width none
-                >.balance
-                  margin-top 30px
+    // .layout-page
+    //   >.layout
+    //     >.layout-page-container
+    //       padding-right: 0px
+    //       >.layout-page
+    //         >.main
+    //           .user
+    //             height 350px
+    //             display flex
+    //             flex-direction column
+    //             >div
+    //               height 160px
+    //             >.information
+    //               width 100%
+    //               max-width none
+    //               >.detail
+    //                 max-width none
+    //             >.balance
+    //               margin-top 30px
+  @media (max-width: 1500px)
+    .MyCommerce.main .user .balance >.cash
+      display none
+    .MyCommerce.main .user .balance >.horizon:nth-child(4)
+      display none
+  @media (max-width: 1280px)
+    .MyCommerce.main .user .balance >.promotional
+      display none
+    .MyCommerce.main .user .balance >.horizon
+      display none
 .commereTd1
   width calc(80/1920*100vw)
   height calc(80/1920*100vw)
@@ -1228,6 +1197,7 @@ export default {
   display inline-block
   position absolute
   display flex
+  transition all .3s
 .search-hot-img
   margin-right 30px
   border 1px solid #c5c5c5
