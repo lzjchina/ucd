@@ -1,9 +1,9 @@
 <template>
   <q-layout
-      ref="layout"
-      view="hHh LpR fFf"
-      :right-breakpoint="1100"
-    >
+    ref="layout"
+    view="hHh LpR fFf"
+    :right-breakpoint="1100"
+  >
   <div class="CheckOutBox">
     <div class="main">
       <div class="deliveryDetails">
@@ -41,31 +41,43 @@
                 <div class="price">${{provider}}</div>
               </div>
               <div class="selectBox">
-               <!--  <div type="text" class="selectInner">shunfeng</div> -->
-                 <q-select
-                  class="selectInner"
-                  v-model="select"
-                  :options="options"
-                   />
+                <div @click="providerToggle" type="text" class="selectInner">{{providerInner}} <div class="select-icon"><img v-bind:class="[providerShow ? 'up' : 'down']" src="statics/search/images/new/down.png"></div>
+                  <ul v-show="providerShow">
+                    <li
+                      v-for="(item, index) in options"
+                      @click="providerSelect(index)"
+                    >{{item.label}}</li>
+                  </ul>
+                </div>
               </div>
             </div>
-            <div class="invoice" v-bind:class="{'on': invoiceOn}">
+            <div class="invoice">
               <div class="head">
                 <div class="title">Invoice Info</div>
-                <q-toggle v-model="check1" value=''/>
-                <!-- <div class="controller" v-on:click="invoiceSwitch"></div> -->
+                <q-toggle v-model="check1" value='' />
+                <!-- <div class="controller"></div> -->
               </div>
               <div class="footer">
                 <div class="funds-kind">
-                  <input name="searchkey" type="text" value="Enter your Phone Number" onFocus="this.value=''" class="kind-input">
+                  <input
+                    name="searchkey"
+                    type="text"
+                    value="Enter your Phone Number"
+                    onFocus="this.value=''"
+                    class="kind-input"
+                    :disabled="!check1"
+                  >
                 </div>
-                <!-- <input :disabled="!invoiceOn" class="footer-invoiceTitle" v-model="items.invoiceInput" ref="invoiceInput" /> -->
-                 <div class="selectBox">
-                   <q-select
-                    class="selectInner"
-                    v-model="select"
-                    :options="options"
-                     />
+                <!-- <input class="footer-invoiceTitle" v-model="items.invoiceInput" ref="invoiceInput" /> -->
+                <div class="selectBox">
+                  <div @click="invoiceToggle" type="text" class="selectInner" v-bind:class="[check1 ? 'able' : 'disabled']">{{invoiceInner}}<div class="select-icon"><img v-bind:class="[invoiceShow ? 'up2' : 'down2']" src="statics/search/images/new/down.png"></div>
+                    <ul v-show="invoiceShow && check1">
+                      <li
+                        v-for="(item, index) in options"
+                        @click="invoiceSelect(index)"
+                      >{{item.label}}</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
@@ -79,7 +91,7 @@
             <tr>
               <td style="width:32px"></td>
               <td>
-                <table border="0" style="margin:0;border-spacing:0px;width:calc(1502/1920*100vw);">
+                <table border="0" style="margin:0;border-spacing:0px;width:calc(1502/1920*100vw);" class="bodyTable">
                   <tr class="table-tr1">
                     <table border="0" cellspacing="0" cellpadding="0" style="margin:0;border-spacing:0px">
                       <tr>
@@ -98,76 +110,54 @@
                       </tr>
                     </table>
                   </tr>
-                  <tr>
+                  <tr v-for="packageItem in checkOut.package">
                     <table border="0" cellspacing="0" cellpadding="0" style="margin:0;border-spacing:0px">
-                      <tr>
+                      <tr v-for="item in packageItem.packageItem">
                         <td class="table-td1">
                           <div class="item2-img">
-                            <img src="statics/images/Myorder/pic1.png" style="display: inline-block; vertical-align: middle; width: calc(80/1920*100vw); height:calc(80/1920*100vw); min-height: 70px; min-width: 70px ">     
+                            <img :src="item.packageItemImgUrl" style="display: inline-block; vertical-align: middle; width: calc(80/1920*100vw); height:calc(80/1920*100vw); min-height: 70px; min-width: 70px ">     
                           </div>
                         </td>
                         <td class="table-td1-1">
                           <div class="item2-text">
-                            <span class="item2-name">Apple iPhone X + 198 Bundle</span><br>
-                            <span class="item2-data">Memory: 256 GB</span><br>
-                            <span class="item2-data">Primary: 198 Bundle</span><br>
-                            <span class="item2-data">Color: Space gray</span>
+                            <span class="item2-name">{{item.packageItemName}}</span><br>
+                            <span class="item2-data">{{item.packageItemDetail3}}</span><br>
+                            <span class="item2-data">{{item.packageItemDetail4}}</span><br>
+                            <span class="item2-data">{{item.packageItemDetail5}}</span>
                           </div>
                         </td>
-                        <td class="table-td2">$1149.00</td>
-                        <td class="table-td3">× 1</td>
-                        <td class="table-td4">$0.00</td>
-                        <td class="table-td5">$0.00</td>
-                        <td class="table-td6">$198.00</td>
-                        <td class="table-td7">$1149.00</td>
-                        <td class="table-td8"></td>
-                      </tr>
-                      <tr>
-                        <td class="table-td1-2">
-                          <div class="item2-img">
-                            <img src="statics/images/Myorder/pic2.png" style="display: inline-block; vertical-align: middle; width: calc(80/1920*100vw); height:calc(80/1920*100vw); min-height: 70px; min-width: 70px">     
-                          </div>
-                        </td>
-                        <td class="table-td1-1">
-                          <div class="item2-text">
-                            <span class="item2-name">Apple iPhone X + 198 Bundle</span><br>
-                            <span class="item2-data">Memory: 256 GB</span><br>
-                            <span class="item2-data">Primary: 198 Bundle</span><br>
-                            <span class="item2-data">Color: Space gray</span>
-                          </div>
-                        </td>
-                        <td class="table-td2">$1149.00</td>
-                        <td class="table-td3">× 1</td>
-                        <td class="table-td4">$0.00</td>
-                        <td class="table-td5">$0.00</td>
-                        <td class="table-td6">$198.00</td>
-                        <td class="table-td7">$1149.00</td>
+                        <td class="table-td2">${{item.packageItemPriceNumber}}</td>
+                        <td class="table-td3">× {{item.packageItemNumber}}</td>
+                        <td class="table-td4">${{item.packageItemTax}}</td>
+                        <td class="table-td5">${{item.packageItemDiscount}}</td>
+                        <td class="table-td6">${{item.packageItemMonthly}}</td>
+                        <td class="table-td7">${{item.packageItemPriceNumber}}</td>
                         <td class="table-td8"></td>
                       </tr>
                     </table>
                   </tr>
-                  <tr>
+                  <tr v-for="item in checkOut.item">
                     <table border="0" cellspacing="0" cellpadding="0" style="margin:0;border-spacing:0px">
                       <tr>
                         <td class="table-td1-2">
                           <div class="item2-img">
-                            <img src="statics/images/Myorder/pic3.png" style="display: inline-block; vertical-align: middle; width: calc(80/1920*100vw); height:calc(80/1920*100vw); min-height: 70px; min-width: 70px">     
+                            <img :src="item.itemImgUrl" style="display: inline-block; vertical-align: middle; width: calc(80/1920*100vw); height:calc(80/1920*100vw); min-height: 70px; min-width: 70px">     
                           </div>
                         </td>
                         <td class="table-td1-1">
                           <div class="item2-text">
-                            <span class="item2-name">Apple iPhone X + 198 Bundle</span><br>
-                            <span class="item2-data">Memory: 256 GB</span><br>
-                            <span class="item2-data">Primary: 198 Bundle</span><br>
-                            <span class="item2-data">Color: Space gray</span>
+                            <span class="item2-name">{{item.itemName}}</span><br>
+                            <span class="item2-data">{{item.itemDetail3}}</span><br>
+                            <span class="item2-data">{{item.itemDetail4}}</span><br>
+                            <span class="item2-data">{{item.itemDetail5}}</span>
                           </div>
                         </td>
-                        <td class="table-td2">$1149.00</td>
-                        <td class="table-td3">× 1</td>
-                        <td class="table-td4">$0.00</td>
-                        <td class="table-td5">$0.00</td>
-                        <td class="table-td6">$198.00</td>
-                        <td class="table-td7">$1149.00</td>
+                        <td class="table-td2">${{item.itemPrice}}</td>
+                        <td class="table-td3">× {{item.itemNumber}}</td>
+                        <td class="table-td4">${{item.itemTax}}</td>
+                        <td class="table-td5">${{item.itemDiscount}}</td>
+                        <td class="table-td6">${{item.itemMonthly}}</td>
+                        <td class="table-td7">${{item.itemPrice}}</td>
                         <td class="table-td8"></td>
                       </tr>
                     </table>
@@ -245,6 +235,7 @@ import {
   QToggle
 } from 'quasar'
 import allData from 'data/allData.json'
+import checkOut from 'data/checkOut.json'
 export default {
   components: {
     QSideLink,
@@ -274,14 +265,18 @@ export default {
     return {
       check1: false,
       select: 'fb',
+      providerShow: false,
+      providerInner: 'Shunfeng',
+      invoiceShow: false,
+      invoiceInner: 'Shunfeng',
       multipleSelect: ['fb', 'yz'],
       options: [
         {
-          label: 'shunfeng',
+          label: 'Shunfeng',
           value: 'fb'
         },
         {
-          label: 'youzheng',
+          label: 'Youzheng',
           value: 'yz'
         }
       ],
@@ -289,10 +284,10 @@ export default {
       items: {
         invoiceInput: 'Enter Invoice Title'
       },
-      invoiceOn: false,
       invoiceTitle: 'Enter Invoice Title',
       provider: 2.99,
       allData: allData,
+      checkOut: checkOut,
       itemAll: [],
       packageAll: [],
       address: [],
@@ -300,17 +295,30 @@ export default {
     }
   },
   methods: {
-    invoiceSwitch: function () {
-      this.invoiceOn = !this.invoiceOn
-    },
     invoiceTitleChange: function () {
       console.log(123)
     },
     removeAddress: function (index) {
       this.address.splice(index, 2)
+      console.log(this.check1)
+    },
+    providerToggle: function () {
+      this.providerShow = !this.providerShow
+    },
+    providerSelect: function (index) {
+      this.providerInner = this.options[index].label
+    },
+    invoiceToggle: function () {
+      if (this.check1) {
+        this.invoiceShow = !this.invoiceShow
+      }
+    },
+    invoiceSelect: function (index) {
+      this.invoiceInner = this.options[index].label
     }
   },
   mounted () {
+    console.log(checkOut)
     this.address = []
     for (var a = 0; a < this.allData.address.length; a++) {
       this.address.push(this.allData.address[a])
@@ -349,6 +357,12 @@ export default {
         console.log(this.$refs.invoiceInput.value)
       },
       deep: true
+    },
+    check1: {
+      handler: function (val, oldval) {
+        this.invoiceShow = false
+      },
+      deep: true
     }
   }
 }
@@ -384,7 +398,9 @@ export default {
   display flex
   justify-content center
   margin-top 88px
-  font-family Helvetica Neue !important
+  font-family HelveticaNeue !important
+  .bodyTable>tr:last-child>table:last-child>tr>td
+    border none
   .main
     flex-direction column
     width: 82%
@@ -519,16 +535,74 @@ export default {
           margin 1% 0
           padding-top 16px
           padding-bottom 32px
-          >.invoice.on
-            >.head
-              .controller
-                background url('/statics/images/checkout/switch_on.png') center center/100% 100% no-repeat #fff
-            .footer
-              .footer-invoiceTitle
-                background-color #fff
-              .footer-invoiceType
-                background-color #fff
-                cursor pointer
+          .provider
+            .selectInner
+              margin-bottom 24px
+              font-size 14px
+              width calc(256/1920*100vw)
+              min-width 224px
+              display flex
+              justify-content space-between
+              align-items center
+              .select-icon
+                height 7px
+                display flex
+                align-items center
+                .down
+                    transform:rotate(0deg)
+                .up
+                  transform:rotate(180deg)
+            ul
+              margin 83px 0 0 -1.1%
+              background #fff
+              border 1px solid #e5e5e5
+              text-align left
+              width calc(256/1920*100vw)
+              min-width 224px
+              position absolute
+              li
+                list-style none
+                line-height 3
+                font-size 14px
+                margin-left -19px
+                border-bottom 1px solid #e5e5e5
+                margin-right 19px
+          .invoice
+            .selectBox
+              .selectInner
+                margin-bottom 24px
+                font-size 14px
+                width calc(196/1920*100vw)
+                min-width 170px
+                display flex
+                justify-content space-between
+                align-items center
+                .select-icon
+                  height 7px
+                  display flex
+                  align-items center
+                  .down2
+                    transform:rotate(0deg)
+                  .up2
+                    transform:rotate(180deg)
+                &.disabled
+                  img
+                    
+              ul
+                margin 83px 0 0 -1.1%
+                background #fff
+                border 1px solid #e5e5e5
+                text-align left
+                width calc(196/1920*100vw)
+                min-width 170px
+                position absolute
+                li
+                  list-style none
+                  line-height 3
+                  font-size 14px
+                  margin-left -19px
+                  border-bottom 1px solid #e5e5e5
+                margin-right 19px
           >.invoice
             width calc(40% - 14px)
             height calc(146/1920*100vw)
@@ -627,7 +701,6 @@ export default {
               .text-primary
                 color #fff !important
               .selectInner
-                width 256px
                 height 56px !important
                 border 1px solid #e5e5e5
                 font-size 14px
@@ -684,7 +757,6 @@ export default {
               .text-primary
                 color #fff !important
               .selectInner
-                width 256px
                 height 56px !important
                 border 1px solid #e5e5e5
                 font-size 14px
@@ -812,7 +884,7 @@ export default {
     color #666666
     font-weight 450
     margin-bottom 104px
-    font-family Helvetica Neue !important
+    font-family HelveticaNeue !important
     .total
       display flex
       justify-content flex-end
@@ -860,7 +932,7 @@ export default {
   align-items center
   position fixed
   bottom 0px
-  font-family Helvetica Neue !important
+  font-family HelveticaNeue !important
   .checkOutBox-footer
     width 82%
     display flex
@@ -938,11 +1010,11 @@ export default {
   .table-tr1
     font-size calc(14/1920*100vw)
     color #c1c0bf
-    font-family Helvetica Neue
+    font-family HelveticaNeue
     font-weight 400
     border 1px solid #000
   td
-    font-family Helvetica Neue
+    font-family HelveticaNeue
     font-size calc(14/1920*100vw)
   .table-td1
     text-align left

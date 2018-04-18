@@ -1,0 +1,43 @@
+@font-face
+  font-family: 'Khmer MN'
+  src: url('~statics/font/Khmer-MN.ttc')
+@font-face
+  font-family: 'Helvetica Neue'
+  src: url('~statics/font/Helvetica-Neue.ttf')
+@font-face
+  font-family: 'HelveticaNeue'
+  src: url('~statics/font/HelveticaNeue.ttf')
+@font-face
+  font-family: 'HelveticaNeue Bold'
+  src: url('~statics/font/HelveticaNeue-Bold.otf')
+
+$font-family-K-M = 'Khmer MN'
+// $font-family-H-N = 'Helvetica Neue'
+// $font-family-HN = 'HelveticaNeue'
+
+html, body
+  font-size calc(10000vw / 750)
+  font-family 'Helvetica Neue'
+
+ul, li, ol
+  list-style none
+  padding 0
+  margin 0
+  
+a
+  color #252525
+  &:hover
+  	color #252525
+i
+  display flex
+  justify-content center
+  align-items center
+  font-size 0
+input
+  outline none
+  border none
+.transition
+  transition all .3s ease-in
+
+.text-light-black
+  color #252525 !important

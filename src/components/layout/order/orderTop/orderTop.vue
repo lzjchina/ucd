@@ -6,8 +6,8 @@
     <div class="box orderTopBox">
       <div class="nav">
         <q-tabs slot="navigation" calss="myorder-navigation">
-          <q-route-tab slot="title" to="Allorder" replace label="All Orders " class="navigation-list"/>
-          <q-route-tab slot="title" to="/bbb" replace label="Waiting for Payment" class="navigation-list"/>
+          <q-route-tab slot="title" to="/Order/MyOrder/AllOrders" replace label="All Orders " class="navigation-list"/>
+          <q-route-tab slot="title" to="#" replace label="Waiting for Payment" class="navigation-list"/>
           <q-route-tab slot="title" to="#" replace label="On Process" class="navigation-list"/>
           <q-route-tab slot="title" to="#" replace label="Waiting for Evaluation" class="navigation-list"/>
           <q-route-tab slot="title" to="#" replace label="Finished" class="navigation-list"/>
@@ -68,10 +68,22 @@ export default {
   justify-content space-between !important
   align-items center
   flex-wrap nowrap !important
+  .material-icons
+    background url('~statics/images/Homepage/search.png') top center no-repeat
+    color rgba(255,255,255,0)
+    width 20px
+    height 20px
+  .q-if-control-before
+    margin-right 8px
+  .q-ripple-container
+    color #fff
   .q-tabs-head
     background rgba(0,0,0,0)
   .q-tab-label
     color #b2b2b2
+    font-weight 500
+    font-family HelveticalNeue
+    font-size 14px
     &:hover
       color #252525
     &.active
@@ -84,8 +96,6 @@ export default {
       padding 0
       padding-left 10px
       margin 0 0 0 0
-    .no-wrap
-      width calc(338/1920*100vw) !important
     .relative-position
       position static
   .no-wrap
@@ -94,10 +104,10 @@ export default {
     width calc(338/1920*100vw)
   .myorder-search
     width calc(338/1920*100vw)
-    height calc(48/1920*100vw)
+    height 48px
     border 1px solid #e5e5e5
     color #e5e5e5
-    font-size calc(16/1920*100vw)
+    font-size 12px
   .nav
     width 100%
     .q-tabs-head

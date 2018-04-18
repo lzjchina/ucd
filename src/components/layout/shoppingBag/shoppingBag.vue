@@ -27,7 +27,7 @@
           </td>
 
           <td class="td3" style="border-bottom:1px solid #eaeaea;">
-            X{{item.packageItemNumber}}
+            ×{{item.packageItemNumber}}
           </td>
 
           <td class="td4" style="border-bottom:1px solid #eaeaea;">
@@ -40,24 +40,30 @@
             <div class="vertical"></div>
           </td>
           <td class="td6" style="border-bottom:1px solid #eaeaea;">
-            <div class="packageItemMonthlyText">Monthly Rental</div>
+            <div class="packageItemMonthlyText">Monthly&nbsp;Rental</div>
             <div class="packageItemMonthly">
               ${{item.packageItemMonthly * item.packageItemNumber}}
             </div>
           </td>
         </tr>
         <tr>
-          <td colspan="6" style="position:relative;height:48px;line-height 48px">
+          <td class="td1"></td>
+          <td class="td2"></td>
+          <td class="td3 subTotal">Subtotal</td>
+          <td class="td4 upfrontTotal">Upfront:<b class="upfrontTotalBlack">&nbsp;${{packageItem.packageUpfrontTotal}}</b></td>
+          <td class="td5"></td>
+          <td class="td6 monthlyTotal"> Monthly&nbsp;Rental:<b class="monthlyTotalBlack">&nbsp;${{packageItem.packageMonthlyTotal}}</b></td>
+          <!-- <td colspan="6" style="position:relative;height:48px;line-height 48px">
             <div class="subTotal">
               Subtotal
             </div>
             <div class="upfrontTotal">
-              Upfront:<b class="upfrontTotalBlack">${{packageItem.packageUpfrontTotal}}</b>
+              Upfront:<b class="upfrontTotalBlack">&nbsp;${{packageItem.packageUpfrontTotal}}</b>
             </div>
             <div class="monthlyTotal">
-              Monthly Rental:<b class="monthlyTotalBlack">${{packageItem.packageMonthlyTotal}}</b>
+              Monthly&nbsp;Rental:<b class="monthlyTotalBlack">&nbsp;${{packageItem.packageMonthlyTotal}}</b>
             </div>
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </table>
@@ -102,7 +108,7 @@
           </td>
 
           <td class="td6">
-            <div class="packageItemMonthlyText">Monthly Rental</div>
+            <div class="packageItemMonthlyText">Monthly&nbsp;Rental</div>
             <div class="packageItemMonthly">${{item.itemMonthly * item.itemNumber}}</div>
           </td>
         </tr>
@@ -121,7 +127,7 @@
       <div class="vertical"></div>
         <div class="totalMonthlyBox">
           <div class="totalMonthlyInner">
-            <div class="totalMonthlyText">Monthly Rental</div>
+            <div class="totalMonthlyText">Monthly&nbsp;Rental</div>
             <div class="totalMonthly">{{monthly}}
             </div>
           </div>
@@ -151,7 +157,6 @@ export default {
   },
   data () {
     return {
-      disabled: false,
       allData: allData,
       packageAll: [
         {
@@ -221,6 +226,7 @@ export default {
           itemUpfront: '1149.00',
           itemMonthly: '0.00',
           itemNumber: 2,
+          disabled: false,
           itemType: 'Device',
           itemDetail1: 'Memory: 256 GB, Primary: 198 Bundle, Color: Space gray',
           itemDetail2: 'Delivery: In Stock'
@@ -232,6 +238,7 @@ export default {
           itemUpfront: '0.00',
           itemMonthly: '11.00',
           itemNumber: 2,
+          disabled: false,
           itemType: 'Device',
           itemDetail1: 'Memory: 256 GB, Primary: 198 Bundle, Color: Space gray',
           itemDetail2: 'Delivery: In Stock'
@@ -275,16 +282,16 @@ export default {
     payment () {
       this.$router.push('/Market/Payment')
     },
-    reduceChangeNum (index, realNum) {
+    reduceChangeNum (index, realNum, disab) {
       for (var i = this.itemAll.length - 1; i >= 0; i--) {
         if (index === i) {
           realNum = realNum - 1
           if (realNum <= 0) {
             realNum = 0
-            this.disabled = true
+            this.itemAll[i].disabled = true
           }
           else {
-            this.disabled = false
+            this.itemAll[i].disabled = false
           }
           this.itemAll[i].itemNumber = realNum
         }
@@ -293,7 +300,7 @@ export default {
     addChangeNum (index, realNum) {
       for (var i = this.itemAll.length - 1; i >= 0; i--) {
         if (index === i) {
-          this.disabled = false
+          this.itemAll[i].disabled = false
           realNum = realNum + 1
           this.itemAll[i].itemNumber = realNum
         }
@@ -350,6 +357,7 @@ table, tr, td
   min-height 100vh
   min-width 1000px
   padding-bottom 180px
+  letter-spacing 0.05em
 .shoppingBoxTable
   width 100%
   min-width 1000px
@@ -419,6 +427,8 @@ table, tr, td
   background #f9f9f9
   border 0
   color #666666
+  outline none
+  cursor pointer
 .totalBox
   width 100%
   min-width 1000px
@@ -492,18 +502,20 @@ table, tr, td
   font-size 18px
   font-weight bold
   line-height 32px
+  color #252525
 .packageItemPrice
   display inline-block
   font-size 16px
   font-weight bold
   line-height 32px
+  color #959595
 .packageItemType
   display inline-block
   margin-left 25px
   font-weight normal
   font-size 16px
   line-height 32px
-  color #cdcdcc
+  color #cac9c8
 .packageItemDetail1
   font-weight normal
   font-size 14px
@@ -540,36 +552,33 @@ table, tr, td
   font-size 14px
   line-height 30px
   color #666666
+  text-align right
 .packageItemMonthly
+  text-align right
   font-size 24px
   line-height 40px
   font-weight bold
   color #252525
 .subTotal
-  width 150px
   color #666666
   font-size 12px
-  display inline-block
-  position absolute
-  right calc(530/1920*100vw)
+  height 48px
+  line-height 48px
+  text-align right
 .upfrontTotal
-  width 230px
   color #666666
   font-size 12px
-  display inline-block
-  position absolute
-  right calc(300/1920*100vw)
+  height 48px
+  line-height 48px
 .upfrontTotalBlack
   color #252525 !important
   font-size 12px
 .monthlyTotal
-  width 200px
-  display inline-block
   color #666666
   font-size 12px
-  display inline-block
-  position absolute
-  right calc(35/1920*100vw)
+  height 48px
+  line-height 48px
+  text-align right
 .monthlyTotalBlack
   color #252525 !important
 .horizon

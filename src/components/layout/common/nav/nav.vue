@@ -5,6 +5,13 @@
       <q-tab slot="title" hide="label" class="logo">
          <img src="statics/images/Homepage/ico_menu.png" class="responsive">
       </q-tab>
+      <div class="all-menu">
+        <div v-for="(item, index) in navRouter">
+          <q-side-link item :to="item.to">
+            <q-item-main :label="item.name" class="myorder-list"/>
+          </q-side-link>
+        </div>
+      </div>
     </q-tabs>
     <!-- Navigation Tabs -->
     <q-tabs slot="navigation" class="q-tabs-left">
@@ -19,7 +26,8 @@
       </q-tab>
       <q-tab slot="title" hide="label">
         <q-btn round color="BrightBlack" class="tabBtn" @click="showPopup('shoppingBag')">
-          <img src="statics/shopping-card.png" alt="" >
+          <img src="statics/images/Homepage/shoppingbag.png" alt="" >
+          <div class="hasGood" v-bind:class="[ hasGoods ? 'yes' : 'no']"></div>
         </q-btn>
       </q-tab>
     </q-tabs>
@@ -102,8 +110,8 @@
               </div>
               <div class="subTotalBox">
                 <div class="subTotal">subtotal</div>
-                <div class="upfrontBox"><div class="upfront">upfront:</div><div class="upfrontNumber">${{item.price}}</div></div>
-                <div class="monthlyBox"><div class="monthly">monthly:</div><div class="monthlyNumber">${{item.setMeal.price}}</div></div>
+                <div class="upfrontBox"><div class="upfront">Upfront:</div><div class="upfrontNumber">${{item.price}}</div></div>
+                <div class="monthlyBox"><div class="monthly">Monthly:</div><div class="monthlyNumber">${{item.setMeal.price}}</div></div>
               </div>
             </div>
             <div class="shoppingBagItem" v-if="itemAll.length > 0" v-for="(item, index) in itemAll">
@@ -208,6 +216,8 @@ import {
   QItemMain
 } from 'quasar'
 import searchData from 'data/search.json'
+import navRouterData from 'data/navRouter.json'
+import shoppingbag from 'data/shoppingbag.json'
 // import allData from 'data/allData.json'
 export default {
   name: 'r-heard',
@@ -240,9 +250,12 @@ export default {
       packageAll: [],
       itemAll: [],
       popup: '',
+      hasGoods: true,
       usered: false,
       bagNumber: 'SHOPPING BAG',
       searchData: searchData.data,
+      shoppingbag: shoppingbag,
+      navRouter: navRouterData.router,
       allData: [],
       text: false,
       searching: '',
@@ -265,7 +278,8 @@ export default {
       switch (type) {
         case 'shoppingBag':
           this.popup = type
-          var _goods = JSON.parse(sessionStorage.getItem('goods'))
+          // var _goods = JSON.parse(sessionStorage.getItem('goods'))
+          var _goods = this.shoppingbag
           if (_goods) {
             this.allData = []
             this.packageAll = []
@@ -280,11 +294,12 @@ export default {
                 this.itemAll.push(g)
               }
             })
-            this.allData = JSON.parse(sessionStorage.getItem('goods'))
+            // this.allData = JSON.parse(sessionStorage.getItem('goods'))
+            this.allData = this.shoppingbag
           }
           let ts = this
           this.allData.map(function (item, index) {
-            console.log(item)
+            // console.log(item)
             if (item.byStages) {
               ts.monthly += (parseInt(item.setMeal.price) * item.number)
             }
@@ -338,6 +353,8 @@ export default {
       }
     },
     search (el) {
+      // console.log('-----------')
+      // console.log(el)
       // console.log(this.searchData)
       this.text = !this.text
       // this.$set(this.text, !this.text)
@@ -455,8 +472,23 @@ export default {
     // else {
     //   this.view = 'hhh lpr fff'
     // }
-    var _goods = JSON.parse(sessionStorage.getItem('goods'))
-    console.log(_goods)
+    // console.log(this.popup)
+    this.socket.$on('toNavSignIn', function () {
+      this.popup = 'signIn'
+      // console.log(this.popup)
+    }.bind(this))
+    // this.socket.$on('toNavSearchHide', function () {
+    //   console.log('toNavSearchHide')
+    //   try {
+    //     this.search()
+    //   }
+    //   catch (err) {
+    //     console.log(err)
+    //   }
+    // }.bind(this))
+    // var _goods = JSON.parse(sessionStorage.getItem('goods'))
+    var _goods = this.shoppingbag
+    // console.log(_goods)
     // if (!_goods) {
     //   _goods = {
     //     item: {
@@ -477,8 +509,8 @@ export default {
           this.itemAll.push(g)
         }
       })
-      console.log(this.packageAll)
-      console.log(this.itemAll)
+      // console.log(this.packageAll)
+      // console.log(this.itemAll)
       this.allData = JSON.parse(sessionStorage.getItem('goods'))
     }
     // console.log(json.parse(allData));
@@ -487,9 +519,50 @@ export default {
 }
 </script>
 <style lang="stylus">
+.marketTop.hide
+  .navTop
+    .q-tabs-input
+      display none
 main, .layout, .layout-header, .layout-footer
   position static !important
 .navTop
+  font-family HelveticaNeue
+  .q-tabs-logo
+    &:hover
+      .q-tab >img
+        transform:rotate(90deg)
+      .all-menu
+        display inline
+    &.active
+      .q-tab >img
+        transform:rotate(90deg)
+      .all-menu
+        display inline
+  .all-menu
+    display none
+    background-color: #fff
+    position: fixed
+    top: 0px
+    left: 0px
+    padding: 88px 0px 20px
+    width: 272px
+    >div
+      >.q-item
+        padding 0px
+        >div
+          >div
+            list-style-type none
+            line-height 3
+            font-weight bold
+            font-size 14px
+            color #252525
+            text-indent 40px
+      >.q-item.router-link-active,
+      >.q-item:hover
+        >div
+          >div
+            background-color #fff
+            color #6abcfc
   .globalMask
     opacity: 0.4
     position: fixed
@@ -499,6 +572,13 @@ main, .layout, .layout-header, .layout-footer
     z-index: 1111
     width: 100%
     height: 100%
+  .q-btn-standard .q-icon
+    font-size 30px
+    margin-top 15px
+  .tabBtn
+    .on-left
+      background url('~statics/images/Homepage/search1.png') top center no-repeat
+      color rgba(0,0,0,0)
   .signUpBox
     position: fixed
     background-color: #fefefe
@@ -739,6 +819,7 @@ main, .layout, .layout-header, .layout-footer
     height 56px
     background none
     position relative
+    padding 0 20px
     z-index 10
     .q-tabs-right-scroll
       background none
@@ -807,8 +888,21 @@ main, .layout, .layout-header, .layout-footer
     width 24px
     height 56px
   .tabBtn
-    width 56px
-    height 56px
+    width 54px
+    height 54px
+    box-shadow 0 0 0 white
+    >span
+      >.hasGood.yes
+        position absolute
+        z-index 9999
+        top calc(50%)
+        left calc(50% - 2px)
+        width 4px
+        height 4px
+        background-color #6abcfc
+        border-radius 50%
+      >.hasGood.no
+        display none
     .on-left
       margin-right 0
   .tabBtn:hover
@@ -879,9 +973,9 @@ main, .layout, .layout-header, .layout-footer
             list-style none
             cursor pointer
             &:hover
-              color #6dd6a9
+              color #6abcfc
             &.active
-              color #6dd6a9
+              color #6abcfc
   @media (min-width: 992px)
     .q-tabs-logo
       .q-tab
@@ -940,6 +1034,9 @@ main, .layout, .layout-header, .layout-footer
       z-index 2002
       background-color rgba(0, 0, 0, 0.4)
     .popupShoppingBagBox
+      font-size 14px
+      font-weight bold
+      font-family HelveticaNeue
       position fixed
       height 100vh
       width 500px
@@ -948,6 +1045,15 @@ main, .layout, .layout-header, .layout-footer
       z-index 2003
       background-color #fff
       padding-top 45px
+      .q-tab-label
+        font-size 14px
+        font-weight bold
+        font-family HelveticaNeue
+        color #252525
+        &:hover
+          color #6abcfc
+        &.active
+          color #6abcfc
       .shoppingBagHead
         margin 0 30px
         border-bottom 1px solid #eaeaea
@@ -983,33 +1089,38 @@ main, .layout, .layout-header, .layout-footer
         width 100%
         background-color #f5f5f5
         bottom 0
-        >div
-          flex 1
+        line-height 1.4
         .vertical
-          border-left 1px solid #EAEAEA
-          width 0
+          width 1px
           height 40px
           margin 8px 0px
-          flex 0
+          background #e5e5e5
         .upfrontBox
           padding 10px 0
-          font-weight bold
-          font-size 10px
-          >div
-            display block
-            height 18px
-            line-height 18px
-            text-align center
+          font-size 14px
+          color #252525
+          display flex
+          justify-content center
+          align-items flex-end
+          flex-direction column
+          margin-right 58px
+          width 122px
+          .upfront
+            color #666666
         .monthlyBox
-          padding 10px 0
-          font-size 10px
-          font-weight bold
-          >div
-            display block
-            height 18px
-            line-height 18px
-            text-align center
+          width 110px
+          padding 0
+          font-size 14px
+          color #252525
+          display flex
+          justify-content center
+          align-items flex-end
+          flex-direction column
+          margin-right 58px
+          .monthly
+            color #666666
         .checkOut
+          width 160px
           background-color #69d7a8
           font-weight bold
           text-align center
@@ -1041,11 +1152,14 @@ main, .layout, .layout-header, .layout-footer
             .packageItemImformation
               width 230px
               height 80px
+              color #666
+              font-weight 400
               .packageItemName
                 height 30px
                 line-height 30px
                 font-size 14px
                 font-weight bold
+                color #252525
               .packageItemMemory
                 height 16px
                 line-height 16px
@@ -1063,6 +1177,7 @@ main, .layout, .layout-header, .layout-footer
               font-size 12px
               line-height 30px
               text-align center
+              color #666
             .horizon
               width 330px
               height 0px
@@ -1096,9 +1211,9 @@ main, .layout, .layout-header, .layout-footer
                 display inline-block
                 float left
               >.upfrontNumber
-                color #000
+                font-size 14px
+                color #252525 !important
             .monthlyBox
-              width 150px
               >div
                 display inline-block
                 float left
@@ -1121,6 +1236,7 @@ main, .layout, .layout-header, .layout-footer
           .itemImformation
             width 230px
             height 80px
+            color #666666
             .itemName
               height 30px
               line-height 30px
@@ -1129,19 +1245,20 @@ main, .layout, .layout-header, .layout-footer
             .itemAttr
               height 16px
               line-height 16px
-              font-size 10px
+              font-size 12px
+              color #666666
             .itemMemory
               height 16px
               line-height 16px
-              font-size 10px
+              font-size 12px
             .itemPrimary
               height 16px
               line-height 16px
-              font-size 10px
+              font-size 12px
             .itemColor
               height 16px
               line-height 16px
-              font-size 10px
+              font-size 12px
           .itemNumber
             width 85px
             font-size 12px
@@ -1176,8 +1293,8 @@ main, .layout, .layout-header, .layout-footer
         background #FF0BEE
     .popupShoppingBagClose
       position fixed
-      height 56px
-      width 56px
+      height 54px
+      width 54px
       top 16px
       right 40px
       z-index 2004

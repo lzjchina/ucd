@@ -1,11 +1,11 @@
 <template>
   <q-layout
-   ref="layout"
-   :view="layoutStore.view"
-   :left-breakpoint="layoutStore.leftBreakpoint"
-   :right-breakpoint="layoutStore.rightBreakpoint"
-   :reveal="layoutStore.reveal"
-   class="search-layout search-box"
+    ref="layout"
+    :view="layoutStore.view"
+    :left-breakpoint="layoutStore.leftBreakpoint"
+    :right-breakpoint="layoutStore.rightBreakpoint"
+    :reveal="layoutStore.reveal"
+    class="search-layout search-box"
   >
     <div slot="header">
       <div class="heardTopbg" style="background: url(statics/search/images/banner/banner1.png) top center no-repeat; background-size: cover;">
@@ -19,12 +19,18 @@
       </div>
     </div>
     <!-- 搜索导航条 -->
-    <!-- <div class="navigation" slot="navigation">
+    <div
+      class="navigation searchNavigation"
+      slot="navigation"
+    >
       <div class="move">
         <div class="products-layout-top">
           <div class="second-filter-title-left">
             <div class="search-filter-Reset">
-              <div class="filter-filter">
+              <div
+                class="filter-filter"
+                @click="filterSwitch"
+              >
                 <img src="statics/search/images/new/ico_fiter.png" style="margin-right:4px;"><span>Filter</span>
               </div>
               <div class="filter-clear" @click="clearType">Reset</div>
@@ -40,7 +46,7 @@
               <span style="color:#666666">Sort by: </span>
               <q-select
                 color="secondary"
-                v-model="select"
+                v-model="sortType"
                 :options="options"
                 @change="typeSelect"
               />
@@ -49,27 +55,26 @@
         </div>
       </div>
       <div class="search-filter-Reset-hr"></div>
-    </div> -->
+    </div>
     <!-- 搜索导航条 -->
-    <!-- <q-scroll-area slot="left" style="width: 100%; height: 100%;"> -->
-    <q-scroll-area slot="left" style="width: 100%; height: calc(100% - 74px);padding-top: 74px">
-      <div class="products-layout">
+    <q-scroll-area slot="left" style="width: 100%; height: 100%;">
+      <div class="products-layout filterBox">
         <!-- 左边第1层 -->
         <div class="products-list-title">
           <span class="products-title flex">Products</span>
-        <q-icon
-          :name="filter.f1.name"
-          @click="openFilter(filter.f1.state, 'f1')"
-        />
+          <q-icon
+            :name="filter.f1.name"
+            @click="openFilter(filter.f1.state, 'f1')"
+          />
         </div>
         <div class="filter-type column" v-if="!filter.f1.state">
           <ul class="column">
             <li 
-              v-for="(item, index) in type" 
+              v-for="(item, index) in products" 
               :key="index" 
-              @click="selectType(item)"
-              v-bind:class="{'active':item==active.type}"
-            >{{item}}</li>
+              @click="select('products', item[0])"
+              v-bind:class="{'active':item[1]===true}"
+            >{{item[0]}}</li>
           </ul>  
         </div>
         <div class="search-left-hr"></div>
@@ -77,19 +82,19 @@
         <!-- 左边第2层 -->
         <div class="products-list-title">
           <span class="products-title flex">Brand</span>
-        <q-icon
-          :name="filter.f2.name"
-          @click="openFilter(filter.f2.state, 'f2')"
-        />
+          <q-icon
+            :name="filter.f2.name"
+            @click="openFilter(filter.f2.state, 'f2')"
+          />
         </div>
         <div class="filter-type column" v-if="!filter.f2.state">
           <ul class="column">
             <li
               v-for="(item, index) in brand"
               :key="index"
-              @click="selectBrand(item)"
-              v-bind:class="{'active':item==active.brand}"
-            >{{item}}</li>
+              @click="select('brand', item[0])"
+              v-bind:class="{'active':item[1]===true}"
+            >{{item[0]}}</li>
           </ul>
         </div>
         <div class="search-left-hr"></div>
@@ -108,13 +113,15 @@
               <div class="btn-border"
                 v-for="(item, index) in color"
                 :key="index"
-                @click="selectColor(item)"
-                v-bind:class="{'active':item==active.color}"
+                @click="select('color', item[0])"
+                v-bind:class="{'active':item[1]===true}"
               >
                 <q-btn
                   round
-                  :color="item"
+                  :color="item[0]"
                 >
+                <span
+                >{{item[0]}}</span>
                 </q-btn>
               </div>
             </div>
@@ -136,10 +143,10 @@
               <li
                 v-for="(item, index) in memory"
                 :key="index"
-                @click="selectMemory(item)"
-                v-bind:class="{'active':item==active.memory}"
+                @click="select('memory', item[0])"
+                v-bind:class="{'active':item[1]===true}"
               >
-                {{item}} BG
+                {{item[0]}} BG
                <!--  <q-icon name="ion-android-close" @click.stop="clearMemory" /> -->
               </li>
             </ul>
@@ -147,9 +154,9 @@
         </div>
         <div class="search-left-hr"></div>
         <!-- 左边第4层 end-->
-        <!-- 左边第6层 -->
+        <!-- 左边第5层 -->
         <div class="products-list-title">
-          <span class="products-title flex">Products Type</span>
+          <span class="products-title flex">Connection</span>
           <q-icon
             :name="filter.f5.name"
             @click="openFilter(filter.f5.state, 'f5')"
@@ -158,13 +165,34 @@
         <div class="filter-type column" v-if="!filter.f5.state">
           <ul class="column">
             <li 
-              v-for="(item, index) in type"
+              v-for="(item, index) in connection"
               :key="index" 
-              @click="selectType(item)"
-              v-bind:class="{'active':item==active.type}"
-            >{{item}}</li>
+              @click="select('connection', item[0])"
+              v-bind:class="{'active':item[1]===true}"
+            >{{item[0]}}</li>
           </ul>
-          <span class="filter-type-more">More</span>  
+        </div>
+        <div class="search-left-hr"></div>
+        <!-- 左边第5层 end-->
+        <!-- 左边第6层 -->
+        <div class="products-list-title">
+          <span class="products-title flex">Products Type</span>
+          <q-icon
+            :name="filter.f6.name"
+            @click="openFilter(filter.f6.state, 'f6')"
+          />
+        </div>
+        <div class="filter-type column" v-if="!filter.f6.state">
+          <ul class="column">
+            <li 
+              v-for="(item, index) in productsType"
+              :key="index" 
+              @click="select('productsType', item[0])"
+              v-bind:class="{'active':item[1]===true}"
+              v-if="item[2] || more"
+            >{{item[0]}}</li>
+          </ul>
+          <span @click="moreToggle" class="filter-type-more">More</span>  
         </div>
         <div class="search-left-hr"></div>
         <!-- 左边第6层 end-->
@@ -206,7 +234,7 @@
       <center class="no-tip" v-if="filterOfferings.length === 0">
         Sorry, the system has not found the relevant goods !
       </center>
-      <div style="height: auto;display: flex; justify-content: center; margin-right: 20px;">
+      <div style="height: auto;display: flex; justify-content: center; margin-right: 20px; padding-top: 52px; padding-bottom: 135px">
         <r-pagination
           :total="filterOfferings.length"
           :display="display"
@@ -268,11 +296,12 @@ export default {
       banner: searchBanner.data,
       offerings: searchOfferings.data,
       offeringsInit: searchOfferings.data,
-      layoutStore,
+      layoutStore: layoutStore,
       // page: 1,
       display: 12,
       current: 1,
-      select: 'pop',
+      sortType: 'pop',
+      more: false,
       searchName: this.$route.query.search,
       filter: {
         f1: {
@@ -280,21 +309,33 @@ export default {
           name: 'ion-close'
         },
         f2: {
-          state: false,
-          name: 'ion-close'
+          state: true,
+          name: 'ion-plus'
         },
         f3: {
-          state: false,
-          name: 'ion-close'
+          state: true,
+          name: 'ion-plus'
         },
         f4: {
-          state: false,
-          name: 'ion-close'
+          state: true,
+          name: 'ion-plus'
         },
         f5: {
-          state: false,
-          name: 'ion-close'
+          state: true,
+          name: 'ion-plus'
+        },
+        f6: {
+          state: true,
+          name: 'ion-plus'
         }
+      },
+      active: {
+        products: [],
+        brand: [],
+        color: [],
+        memory: [],
+        connection: [],
+        productsType: []
       },
       options: [
         {
@@ -322,55 +363,60 @@ export default {
           value: 'high'
         }
       ],
-      active: {
-        type: 'All',
-        color: '',
-        memory: ''
-      },
       products: [
-        'Contract Phone',
-        'Phone',
-        'Accessories',
-        'Plans'
+        ['Contract Phone', false],
+        ['Phone', false],
+        ['Accessories', false],
+        ['Plans', false]
       ],
       brand: [
-        'Huawei',
-        'Others'
-      ],
-      type: [
-        'Contract Phone',
-        'Phone',
-        'Accessories',
-        'Plans'
+        ['Huawei', false],
+        ['Others', false]
       ],
       color: [
-        'dark',
-        'white',
-        'deep-purple',
-        'blue',
-        'teal',
-        'cyan',
-        'green',
-        'light-green',
-        'yellow',
-        'amber',
-        'lime',
-        'pink',
-        'orange',
-        'red',
-        'purple'
+        ['dark', false],
+        ['white', false],
+        ['deep-purple', false],
+        ['blue', false],
+        ['teal', false],
+        ['cyan', false],
+        ['green', false],
+        ['light-green', false],
+        ['yellow', false],
+        ['amber', false],
+        ['lime', false],
+        ['pink', false],
+        ['orange', false],
+        ['red', false],
+        ['purple', false]
       ],
       memory: [
-        16,
-        32,
-        64,
-        128,
-        256
+        [16, false],
+        [32, false],
+        [64, false],
+        [128, false],
+        [256, false]
       ],
       connection: [
-        'Airplay',
-        'Bluetooth',
-        'Wireless'
+        ['Airplay', false],
+        ['Bluetooth', false],
+        ['Wireless', false]
+      ],
+      productsType: [
+        ['All Cases', false, true],
+        ['Cases & Covers', false, true],
+        ['Headphones', false, true],
+        ['Sperkers', false, true],
+        ['Snap On Cases', false, true],
+        ['Charges', false, true],
+        ['Batteries', false, true],
+        ['1', false, false],
+        ['2', false, false],
+        ['3', false, false],
+        ['4', false, false],
+        ['5', false, false],
+        ['6', false, false],
+        ['7', false, false]
       ]
     }
   },
@@ -381,41 +427,181 @@ export default {
     HotPageAdd () {
       this.banner.select = this.banner.select + 2 >= this.banner.total ? this.banner.total - 2 : this.banner.select + 2
     },
+    moreToggle () {
+      this.more = !this.more
+    },
     selectProducts (products) {
       this.active.products = products
       this.current = 1
     },
-    selectBrand (brand) {
-      this.active.brand = brand
-      this.current = 1
-    },
-    selectType (type) {
-      this.active.type = type
-      this.current = 1
-    },
-    selectColor (color) {
-      if (color === this.active.color) {
-        this.active.color = ''
-      }
-      else this.active.color = color
-      this.current = 1
-    },
-    selectMemory (memory) {
-      this.active.memory = memory
-      this.current = 1
-    },
-    clearMemory () {
-      this.active.memory = ''
-      this.current = 1
-    },
-    clearBrand () {
-      this.active.brand = ''
-      this.current = 1
-    },
     clearType () {
-      this.active.color = ''
-      this.active.memory = ''
+      this.active.products = []
+      this.active.brand = []
+      this.active.color = []
+      this.active.memory = []
+      this.active.connection = []
+      this.active.productsType = []
+      for (var p = 0; p < this.products.length; p++) {
+        this.products[p][1] = false
+      }
+      for (var b = 0; b < this.brand.length; b++) {
+        this.brand[b][1] = false
+      }
+      for (var c = 0; c < this.color.length; c++) {
+        this.color[c][1] = false
+      }
+      for (var m = 0; m < this.memory.length; m++) {
+        this.memory[m][1] = false
+      }
+      for (var con = 0; con < this.connection.length; con++) {
+        this.connection[con][1] = false
+      }
+      for (var pt = 0; pt < this.productsType.length; pt++) {
+        this.productsType[pt][1] = false
+      }
       this.current = 1
+    },
+    select (type, item) {
+      console.log(type)
+      console.log(item)
+      switch (type) {
+        case 'products':
+          var productsFlag = true
+          for (var P = 0; P < this.products.length; P++) {
+            if (this.products[P][0] === item) {
+              if (this.products[P][1]) {
+                productsFlag = false
+              }
+              this.products[P][1] = !this.products[P][1]
+            }
+          }
+          console.log(productsFlag)
+          for (var p = 0; p < this.active.products.length; p++) {
+            if (this.active.products[p] === item) {
+              this.active.products.splice(p, 1)
+              productsFlag = false
+              break
+            }
+          }
+          console.log(productsFlag)
+          if (productsFlag) {
+            this.active.products.push(item)
+          }
+          console.log(this.active.products)
+          console.log(this.products)
+          break
+        case 'brand':
+          var brandFlag = true
+          for (var B = 0; B < this.brand.length; B++) {
+            if (this.brand[B][0] === item) {
+              if (this.brand[B][1]) {
+                brandFlag = false
+              }
+              this.brand[B][1] = !this.brand[B][1]
+            }
+          }
+          for (var b = 0; b < this.active.brand.length; b++) {
+            if (this.active.brand[b] === item) {
+              this.active.brand.splice(b, 1)
+              brandFlag = false
+              break
+            }
+          }
+          if (brandFlag) {
+            this.active.brand.push(item)
+          }
+          console.log(this.active.brand)
+          break
+        case 'color':
+          var colorFlag = true
+          for (var C = 0; C < this.color.length; C++) {
+            if (this.color[C][0] === item) {
+              if (this.color[C][1]) {
+                colorFlag = false
+              }
+              this.color[C][1] = !this.color[C][1]
+            }
+          }
+          for (var c = 0; c < this.active.color.length; c++) {
+            if (this.active.color[c] === item) {
+              this.active.color.splice(c, 1)
+              colorFlag = false
+              break
+            }
+          }
+          if (colorFlag) {
+            this.active.color.push(item)
+          }
+          console.log(this.active.color)
+          break
+        case 'memory':
+          var memoryFlag = true
+          for (var M = 0; M < this.memory.length; M++) {
+            if (this.memory[M][0] === item) {
+              if (this.memory[M][1]) {
+                memoryFlag = false
+              }
+              this.memory[M][1] = !this.memory[M][1]
+            }
+          }
+          for (var m = 0; m < this.active.memory.length; m++) {
+            if (this.active.memory[m] === item) {
+              this.active.memory.splice(m, 1)
+              memoryFlag = false
+              break
+            }
+          }
+          if (memoryFlag) {
+            this.active.memory.push(item)
+          }
+          console.log(this.active.memory)
+          break
+        case 'connection':
+          var connectionFlag = true
+          for (var CON = 0; CON < this.connection.length; CON++) {
+            if (this.connection[CON][0] === item) {
+              if (this.connection[CON][1]) {
+                connectionFlag = false
+              }
+              this.connection[CON][1] = !this.connection[CON][1]
+            }
+          }
+          for (var con = 0; con < this.active.connection.length; con++) {
+            if (this.active.connection[con] === item) {
+              this.active.connection.splice(con, 1)
+              connectionFlag = false
+              break
+            }
+          }
+          if (connectionFlag) {
+            this.active.connection.push(item)
+          }
+          console.log(this.active.connection)
+          break
+        case 'productsType':
+          var productsTypeFlag = true
+          for (var PT = 0; PT < this.productsType.length; PT++) {
+            if (this.productsType[PT][0] === item) {
+              if (this.productsType[PT][1]) {
+                productsTypeFlag = false
+              }
+              this.productsType[PT][1] = !this.productsType[PT][1]
+            }
+          }
+          for (var pt = 0; pt < this.active.productsType.length; pt++) {
+            if (this.active.productsType[pt] === item) {
+              this.active.productsType.splice(pt, 1)
+              productsTypeFlag = false
+              break
+            }
+          }
+          if (productsTypeFlag) {
+            this.active.productsType.push(item)
+          }
+          console.log(this.active.productsType)
+          break
+        default:
+      }
     },
     pagechange: function (p) {
       this.current = p
@@ -433,6 +619,14 @@ export default {
         this.filter[key].state = true
         this.filter[key].name = 'ion-plus'
       }
+    },
+    filterSwitch () {
+      if (this.layoutStore.leftBreakpoint === 996) {
+        this.layoutStore.leftBreakpoint = 10000
+      }
+      else if (this.layoutStore.leftBreakpoint === 10000) {
+        this.layoutStore.leftBreakpoint = 996
+      }
     }
   },
   created () {
@@ -440,31 +634,120 @@ export default {
       this.pagechange(target)
     })
   },
+  mounted () {
+    this.socket.$on('toSearchTypeReset', function () {
+      // this.active.products = []
+      // this.active.brand = []
+      // this.active.color = []
+      // this.active.memory = []
+      // this.active.connection = []
+      // this.active.productsType = []
+      // this.current = 1
+      this.clearType()
+    }.bind(this))
+    this.socket.$on('toSearchSortTypeSelect', function (type) {
+      this.sortType = type
+    }.bind(this))
+    this.socket.$on('toSearchFilterSwitch', function () {
+      this.filterSwitch()
+    }.bind(this))
+  },
   computed: {
     filterOfferings: function () {
-      var _data = this.offerings
-      if (this.select === 'low') _data = _.orderBy(_data, 'price', 'asc')
-      else if (this.select === 'high') _data = _.orderBy(_data, 'price', 'desc')
-      else if (this.select === 'shelfTime') _data = _.orderBy(_data, 'shelfTime', 'desc')
-      else _data = _.orderBy(_data, this.select)
-      if (this.active.type !== '' && this.active.type !== 'All') {
-        var _type = this.active.type
-        _data = _data.filter(function (item) {
-          return item.type === _type
-        })
+      var _data = []
+      // 获取数据
+      if (this.active.products.length || this.active.brand.length || this.active.color.length || this.active.memory.length || this.active.connection.length || this.active.productsType.length) {
+        if (this.active.products.length !== 0) {
+          for (var p = 0; p < this.active.products.length; p++) {
+            var _products = this.active.products[p]
+            var _productsData = this.offerings.filter(function (item) {
+              console.log(item)
+              return item.products === _products
+            })
+            _data = _data.concat(_productsData)
+          }
+        }
+        if (this.active.brand.length !== 0) {
+          for (var b = 0; b < this.active.brand.length; b++) {
+            var _brand = this.active.brand[b]
+            var _brandData = this.offerings.filter(function (item) {
+              console.log(item)
+              return item.brand === _brand
+            })
+            _data = _data.concat(_brandData)
+          }
+        }
+        if (this.active.color.length !== 0) {
+          for (var c = 0; c < this.active.color.length; c++) {
+            var _color = this.active.color[c]
+            var _colorData = this.offerings.filter(function (item) {
+              console.log(item)
+              return item.color === _color
+            })
+            _data = _data.concat(_colorData)
+          }
+        }
+        if (this.active.memory.length !== 0) {
+          for (var m = 0; m < this.active.memory.length; m++) {
+            var _memory = this.active.memory[m]
+            var _memoryData = this.offerings.filter(function (item) {
+              console.log(item)
+              return item.memory === _memory
+            })
+            _data = _data.concat(_memoryData)
+          }
+        }
+        if (this.active.connection.length !== 0) {
+          for (var con = 0; con < this.active.connection.length; con++) {
+            var _connection = this.active.connection[con]
+            var _connectionData = this.offerings.filter(function (item) {
+              console.log(item)
+              return item.connection === _connection
+            })
+            _data = _data.concat(_connectionData)
+          }
+        }
+        if (this.active.productsType.length !== 0) {
+          for (var pT = 0; pT < this.active.productsType.length; pT++) {
+            var _productsType = this.active.productsType[pT]
+            var _productsTypeData = this.offerings.filter(function (item) {
+              console.log(item)
+              return item.productsType === _productsType
+            })
+            _data = _data.concat(_productsTypeData)
+          }
+        }
+        // 去重复
+        var _data2 = []
+        for (var d1 = 0; d1 < _data.length; d1++) {
+          if (_data2.length === 0) {
+            _data2.push(_data[d1])
+          }
+          else {
+            var repeatFlag = false
+            for (var d2 = 0; d2 < _data2.length; d2++) {
+              if (_data[d1].id === _data[d2].id) {
+                repeatFlag = true
+                break
+              }
+            }
+            if (!repeatFlag) {
+              _data2.push(_data[d1])
+            }
+          }
+        }
+        _data = _data2
       }
-      if (this.active.color !== '') {
-        var _color = this.active.color
-        _data = _data.filter(function (item) {
-          return item.color === _color
-        })
+      else {
+        _data = this.offerings
       }
-      if (this.active.memory !== '') {
-        var _memory = this.active.memory
-        _data = _data.filter(function (item) {
-          return item.memory === _memory
-        })
-      }
+      // 排序
+      if (this.sortType === 'low') _data = _.orderBy(_data, 'price', 'asc')
+      else if (this.sortType === 'high') _data = _.orderBy(_data, 'price', 'desc')
+      else if (this.sortType === 'shelfTime') _data = _.orderBy(_data, 'shelfTime', 'desc')
+      else _data = _.orderBy(_data, this.sortType)
+      this.socket.$emit('toIndexSearchChange', _data.length)
+      // this.socket.$emit('toIndexClick')
       return _data
     }
   },
@@ -514,6 +797,8 @@ export default {
 .search-box
   width 100%
   position absolute
+  .q-ripple-container
+    display none !important
   .navigation
     width 100%
     display flex
@@ -549,7 +834,6 @@ export default {
     .second-filter-title-right
       height 63px
   .layout-header
-    margin-bottom: 74px
     box-shadow none
     transform: translateY(0px)
   .layout-page-container.transition-generic
@@ -637,9 +921,33 @@ export default {
     .products-open-img
       padding 0 32px 0 0
   .filter-type-more
-      color #6abcfc
-      font-size 14px
-      padding 8px 0
+    color #6abcfc
+    font-size 14px
+    padding 8px 0
+    cursor pointer
+  .filter-type1
+    display flex
+    ul
+      padding 0
+      font-size calc(14/1920*100vw)
+      li
+        opacity: 0.4
+        padding 8px 0
+        color #252525
+        cursor pointer
+        list-style-type none
+        background #fff
+        padding 6px 0 6px 16px
+        margin-left -16px
+        margin-bottom 8px
+        &:hover
+          opacity: 1
+          color #6dd6a9
+          background #f9f9f9
+        &.active
+          opacity: 1l
+          color #6dd6a9
+          background #f9f9f9
   .filter-type
     display flex
     ul
@@ -736,6 +1044,20 @@ export default {
       padding 24px 0
       color #666
     .select-color-body
+      .btn-border:hover
+        span
+          display flex
+          color #666666
+          font-size 12px
+          margin-top 16px
+          text-transform capitalize
+      .btn-border.active
+        span
+          display flex
+          color #666666
+          font-size 12px
+          margin-top 16px
+          text-transform capitalize
       .btn-border
         width 32px
         height 32px
@@ -744,7 +1066,9 @@ export default {
         display flex
         justify-content center
         align-items center
-        margin 4px
+        margin 18px 6px
+        span
+          display none
         &:hover
           border 1px solid #e7e7e7
         &.active
@@ -753,6 +1077,9 @@ export default {
           margin-left 0
         &:nth-child(5)
           margin-left 0
+        &:nth-child(6)
+          .q-btn-standard
+            background url('~statics/search/images/new/multi.png') !important
         &:nth-child(9)
           margin-left 0
         &:nth-child(13)
@@ -800,7 +1127,6 @@ export default {
     .q-focusable:focus .q-focus-helper
       opacity 0
     .q-icon
-      display none
       font-size 14px
       color #b8b8b8
       margin-left 4px
@@ -875,7 +1201,7 @@ export default {
         flex-direction column
         align-items center
         width 100%
-        border 2px solid #e5e5e5
+        border 1px solid #e5e5e5
         &:hover
           border 2px solid #252525
         &.active

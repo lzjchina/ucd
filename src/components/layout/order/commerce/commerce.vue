@@ -52,14 +52,14 @@
             </div>
           </div>
         </div>
-        <table class="order" cellspacing="0" cellpadding="0" v-for="item in order">
+        <table class="order" cellspacing="0" cellpadding="0">
           <thead>
             <tr class="title">
               <td><strong>Uncompleted Order</strong></td>
               <td><span>View All Orders</span></td>
             </tr>
           </thead>
-          <tbody style="overflow:hidden;">
+          <tbody class="orderTbody" v-for="(item, index) in order" style="overflow:hidden;">
             <tr>
               <td colspan="2">
                 <table cellpadding="0" cellspacing="0">
@@ -76,8 +76,8 @@
                           <div class="item1-online">
                           <img src="~statics/MyCommerce/ico_Online.png" style="display: inline-block; vertical-align: middle; width: calc(20/1920*100vw); height: calc(20/1920*100vw); margin-right:4px " ><span class="item1-data">Online</span>
                           </div>
-                          <div class="item1-cancel">
-                          <img src="~statics/MyCommerce/ico_Remove.png" style="display: inline-block; vertical-align: middle; width: calc(20/1920*100vw); height:calc(20/1920*100vw); margin-right:4px "><span class="item1-delete">Cancel</span>
+                          <div @click="deleteOrder(index)" class="item1-cancel">
+                            <img src="~statics/MyCommerce/ico_Remove.png" style="display: inline-block; vertical-align: middle; width: calc(20/1920*100vw); height:calc(20/1920*100vw); margin-right:4px "><span class="item1-delete">Cancel</span>
                           </div>
                         </div>
                       </th>
@@ -362,7 +362,7 @@
               <span class="text">{{ parseInt(banner.select)/4+1 }} / {{ Math.ceil(parseInt(banner.total)/4) }}</span>
               <div
                 class="hot-right-btn-left"
-                v-bind:class="{ 'active':parseInt(banner.select)/2+1!=1 }"
+                v-bind:class="{ 'active': this.hotPageDisable !== 'prev' }"
                 @click="HotPageSub" >
               <q-icon
                 class="btn btn-left"
@@ -371,7 +371,7 @@
               </div>
               <div
                 class="hot-right-btn-right"
-                v-bind:class="{ 'active':parseInt(banner.select)/2+1<Math.ceil(parseInt(banner.total)/2) }"
+                v-bind:class="{ 'active': this.hotPageDisable !== 'next' }"
                 @click="HotPageAdd">
               <q-icon
                 class="btn btn-right"
@@ -383,7 +383,18 @@
 
           <div class="search-hot-main">
             <div class="search-hot-box" v-bind:style="recommendationStyle">
-              <a class="search-hot-img" v-for="item in banner.items">{{item.id}}</a>
+              <a class="search-hot-img" v-for="item in banner.items">
+                <img
+                width="100%"
+                :src="item.image"
+                :title="item.name"
+                >
+                <span class="search-hot-imgname">{{item.name}}</span>
+                <div class="search-hot-data">
+                  <span class="search-hot-imgprice">${{item.price}}</span>
+                  <span class="search-hot-imgtype">{{item.type}}</span>
+                </div>
+              </a>
             </div>
           </div>
 
@@ -443,6 +454,7 @@ import {
   QTransition
 } from 'quasar'
 import Recommendation from 'data/Recommendation.json'
+import commerce from 'data/commerce.json'
 export default {
   components: {
     QLayout,
@@ -465,6 +477,7 @@ export default {
     return {
       banner: Recommendation.data,
       recommendationLeft: 0,
+      hotPageDisable: 'prev',
       recommendationStyle: {
         left: 'calc((((-270 * 0) / 1920) * 100vw) - (0 * 30px))'
       },
@@ -485,56 +498,29 @@ export default {
         promotional: 200,
         cash: 300
       },
-      order: [
-        {
-          created: '2018/03/08 05:39:00',
-          id: 100001600000003,
-          goodsNum: 3,
-          goods: [
-            {
-              imgUrl: 'statics/phone.png',
-              name: 'Apple iPhone X + 198 Bundle',
-              detail1: 'Memory: 256 GB',
-              detail2: 'Primary: 198 Bundle',
-              detail3: 'Color: Space gray',
-              upfront: 1149.00,
-              monthly: 198.00,
-              number: 1
-            },
-            {
-              imgUrl: 'statics/phone2.png',
-              name: 'Apple iPhone X',
-              detail1: 'Memory: 128 GB',
-              detail2: 'Primary: 198 Bundle',
-              detail3: 'Color: Space gray',
-              upfront: 1149.00,
-              monthly: 198.00,
-              number: 1
-            },
-            {
-              imgUrl: 'statics/phone3.png',
-              name: '198 Bundle',
-              detail1: 'Memory: 64 GB',
-              detail2: 'Primary: 198 Bundle',
-              detail3: 'Color: Space gray',
-              upfront: 1149.00,
-              monthly: 198.00,
-              number: 1
-            }
-          ]
-        }
-      ]
+      order: commerce.order
     }
   },
   methods: {
+    deleteOrder (index) {
+      this.order.splice(index, 1)
+    },
     HotPageSub () {
       // this.banner.select = this.banner.select - 4 < 0 ? 0 : this.banner.select - 4
       var vw = window.innerWidth / 100
       var boxWidth = (1483 / 1920) * 100 * vw
       var itemWidth = (270 / 1920) * 100 * vw + 30
       var moveTime = Math.floor((boxWidth + 30) / itemWidth)
-      this.recommendationLeft < moveTime ? this.recommendationLeft = 0 : this.recommendationLeft -= moveTime
+      if (this.recommendationLeft < moveTime) {
+        this.recommendationLeft = 0
+        this.hotPageDisable = 'prev'
+      }
+      else {
+        this.recommendationLeft -= moveTime
+        this.hotPageDisable = ''
+      }
       this.recommendationStyle.left = 'calc((((-270 * ' + this.recommendationLeft + ') / 1920) * 100vw) - (' + this.recommendationLeft + ' * 30px))'
+      console.log(this.hotPageDisable)
     },
     HotPageAdd () {
       // box宽度
@@ -545,11 +531,16 @@ export default {
       var boxWidth = (1483 / 1920) * 100 * vw
       var itemWidth = (270 / 1920) * 100 * vw + 30
       var moveTime = Math.floor((boxWidth + 30) / itemWidth)
-      this.recommendationLeft + (moveTime * 2) > this.banner.items.length ? this.recommendationLeft = this.banner.items.length - moveTime : this.recommendationLeft += moveTime
-      // if (this.recommendationLeft > this.banner.items.length - moveTime) {
-      //   this.recommendationLeft = this.banner.items.length - moveTime
-      // }
+      if (this.recommendationLeft + (moveTime * 2) > this.banner.items.length) {
+        this.recommendationLeft = this.banner.items.length - moveTime
+        this.hotPageDisable = 'next'
+      }
+      else {
+        this.recommendationLeft += moveTime
+        this.hotPageDisable = ''
+      }
       this.recommendationStyle.left = 'calc((((-270 * ' + this.recommendationLeft + ') / 1920) * 100vw) - (' + this.recommendationLeft + ' * 30px))'
+      console.log(this.hotPageDisable)
     }
   }
 }
@@ -561,6 +552,7 @@ export default {
     flex-direction column
     width calc(1516/1920*100vw)
     padding 1.4% 0 0 2%
+    font-family HelveticaNeue
     .user
       margin-bottom 30px
       display flex
@@ -733,6 +725,11 @@ export default {
           flex-grow 0
           flex-shrink 0
           border-right 1px solid #c5c5c5
+    .order
+      .orderTbody:last-child
+        border-bottom none
+      .orderTbody
+        border-bottom 1px solid #e5e5e5
     .search-hot
       display flex
       flex-direction column
@@ -754,6 +751,7 @@ export default {
           display flex
           align-items center
           .hot-right-btn-left
+            cursor pointer
             width calc(36/1920*100vw)
             height calc(36/1920*100vw)
             background #252525
@@ -769,9 +767,8 @@ export default {
             opacity 0.5
             &.active
               opacity 1
-            &:hover
-              opacity 1
           .hot-right-btn-right
+            cursor pointer
             width calc(36/1920*100vw)
             height calc(36/1920*100vw)
             background #252525
@@ -783,9 +780,8 @@ export default {
             font-size calc(14/1920*100vw)
             min-width 24px
             min-height 24px
+            opacity 0.5
             &.active
-              opacity 1
-            &:hover
               opacity 1
           span
             padding 0 12px
@@ -980,6 +976,7 @@ export default {
       font-size calc(14/1920*100vw)
     .item1-cancel
       min-width 70px
+      cursor pointer
     .item1-online
       min-width 100px
       text-align left
@@ -1055,6 +1052,7 @@ export default {
       text-align right
       padding-right calc(20/1920*100vw)
     .item2-text4
+      font-weight bold
       width 16%
       min-width 46px 
       line-height 1
@@ -1204,17 +1202,43 @@ export default {
   display inline-block
   width calc(270/1920*100vw)
   height calc(380/1920*100vw)
+  display flex
+  justify-content flex-start
+  align-items center
+  flex-direction column
+  overflow hidden
+  .search-hot-imgname
+    font-weight bold
+    font-size calc(18/1920*100vw)
+    color #252525
+    line-height 2
+    margin-top calc(20/1920*100vw)
+    padding 0 16px
+    white-space nowrap
+    overflow hidden
+  .search-hot-data
+    font-weight 400
+    font-size calc(16/1920*100vw)
+    display flex
+    flex-direction row
+    padding 0 16px
+    color #252525
+    .search-hot-imgtype
+      padding-left 10px
+      color #c1c0bf
 .search-hot-img:hover
-  border 1px solid #252525
+  border 2px solid #252525
 .td3-text
   text-align right
   margin-right 50%
+  font-weight bold
 .td3-text-Upfront
   font-size 14px
   color #adadad
 .td3-text-price
   font-size 12px
 .td4-text
+  font-weight bold
   text-align right
   margin-right 50%
 .td4-text-Upfront
@@ -1223,6 +1247,7 @@ export default {
 .td4-text-price
   font-size 12px
 .td6-text
+  font-weight bold
   text-align center
 .td6-text-Upfront
   color #666666

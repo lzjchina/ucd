@@ -17,6 +17,7 @@
         >
           <img
             height="100%"
+            width="100%"
             :src="item.image"
             :title="item.name"
             >
@@ -132,7 +133,7 @@
       <div class="signup-input2">
         <input name="searchkey" type="text" value="Enter your Phone Number" onFocus="this.value=''" class="sign-input"> 
         <!-- <q-input v-model="text" inverted class="sign-input"/> -->
-        <q-btn class="signup-btn1">Sign up <img src="statics/images/Homepage/right.png" style="padding:0 0 0 8%; width: 12.4% "></q-btn>
+        <q-btn @click="signIn" class="signup-btn1">Sign up <img src="statics/images/Homepage/right.png" style="padding:0 0 0 8%; width: 12.4% "></q-btn>
       </div>
     </div>
   </div>
@@ -221,10 +222,14 @@ export default {
         buy.push(array)
       }
       sessionStorage.setItem('goods', JSON.stringify(buy))
+      // console.log(sessionStorage.getItem('goods'))
       // console.log(JSON.parse(sessionStorage.getItem('goods')))
     },
     jupmSearch () {
       this.$router.push('/Market/Search')
+    },
+    signIn () {
+      this.socket.$emit('toIndexSignIn')
     }
   }
 }
@@ -284,7 +289,7 @@ export default {
         display flex
         justify-content space-between
         align-items center
-        font-family Helvetica Neue
+        font-family HelveticaNeue
         font-weight bold
         font-size 14px
         >span
@@ -301,7 +306,7 @@ export default {
           color #fff
           padding 0 6%
     .banner-title
-      font-family Helvetica Neue
+      font-family HelveticaNeue
       position absolute
       z-index 100
       align-self flex-end
@@ -320,7 +325,7 @@ export default {
       color #fff
       margin-left calc(24/1920*100vw)
     .banner-btn
-      font-family Helvetica Neue !important
+      font-family HelveticaNeue !important
       font-weight bold
       font-size calc(14/1920*100vw)
       color #252525
@@ -345,7 +350,7 @@ export default {
       font-size calc(24/1920*100vw)
       color #252525
       .products-title1
-        font-family Helvetica Neue
+        font-family HelveticaNeue
         width 81.6%
         font-weight bold
         font-size calc(24/1920*100vw)
@@ -358,7 +363,7 @@ export default {
       align-items flex-start
       width 100%
     .new-products
-      font-family Helvetica Neue
+      font-family HelveticaNeue
       width 18%
       display flex
       flex-direction column
@@ -404,7 +409,7 @@ export default {
       color #252525
     .featured-title1
         width 81.6%
-        font-family Helvetica Neue !important
+        font-family HelveticaNeue !important
         font-weight bold
         font-size calc(24/1920*100vw)
         color #252525
@@ -420,17 +425,22 @@ export default {
         position relative
       .featured-img
         width 88%
-        margin 0 0 3.2% 12%
+        margin 0 0 0 12%
+        display flex
+        align-items flex-end
+    .featuredBox
+      display flex
+      align-items flex-end
+      margin-bottom 46px
     .featuredBox:nth-child(even) .featured-img
       width 88%
-      margin 0 12% 3.2% 0
+      margin 0 12% 0 0
     .featuredBox:nth-child(even) .featured-font
       width calc(464/1920*100vw)
       height calc(370/1920*100vw)
       background #fff
       border 1px solid #f1f1f1
       position absolute
-      margin-top -27.3%
       display flex
       justify-content center
       align-items center
@@ -441,12 +451,11 @@ export default {
       background #fff
       border 1px solid #f1f1f1
       position absolute
-      margin-top -27.3%
       display flex
       justify-content center
       align-items center
     .featured-body
-      font-family Helvetica Neue !important
+      font-family HelveticaNeue !important
       width calc(324/1920*100vw)
     .featured-name
       font-size calc(24/1920*100vw)
@@ -489,7 +498,7 @@ export default {
       box-shadow 0 0 0 white
       min-width 72px
       min-height 24px
-      font-family Helvetica Neue !important
+      font-family HelveticaNeue !important
       font-weight bold
     .featured-btn2
       width calc(80/1920*100vw)
@@ -503,7 +512,7 @@ export default {
       font-weight normal
       min-width 54px
       min-height 24px
-      font-family Helvetica Neue !important
+      font-family HelveticaNeue !important
       font-weight bold
   .see-all
     display flex
@@ -535,7 +544,7 @@ export default {
     display flex
     justify-content center
     align-items flex-start
-    font-family Helvetica Neue !important
+    font-family HelveticaNeue !important
     .sign-up
       width 81.2%
     .sign-title

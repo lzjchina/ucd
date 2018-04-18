@@ -2,7 +2,10 @@
 <div class="cont">
    <div class="btnGroup row">
       <div class="btnTip">
-         <span class="btnTipTittle">User  satisfaction</span>
+         <span class="btnTipTittle">
+          <div>User  satisfaction</div>
+          <div><q-rating readonly v-model="ratingModel" :max="5" /></div>
+         </span>
          <span>98<sub style="font-size:14px;">%</sub></span>
       </div>
       <div style="height:80px;border-left:1px solid #e5e5e5;"></div>
@@ -694,6 +697,8 @@ export default {
     padding 64px 64px 44px 64px 
   .pagingTip
     font-size 12px
+    margin-left: -105px;
+    padding-right: 105px;
   .pagingTip > span
     color #252525
     font-weight 700
@@ -707,4 +712,9 @@ export default {
     color #252525
   .q-tab .q-tab-label
     color #b2b2b2
+  .q-rating i
+    text-shadow none
+    color #e5e5e5
+  .q-rating i.active
+    color #ffe474
 </style>

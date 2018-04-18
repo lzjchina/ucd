@@ -17,6 +17,7 @@
             v-for="link in links"
             :key="link.id"
             :to="link.href"
+            v-bind:class="[link.label === 'OVERVIEW' ? 'active' : '']"
           >
             {{link.label}}
           </q-side-link>
@@ -335,11 +336,12 @@ export default {
   .leftSmallItem > div:nth-child(1)
     margin-left calc(56/1920*100vw)
   .linkName
-    width calc(80/1920*100vw)
+    width calc(200/1920*100vw)
     color #fff
     font-weight bold
     cursor pointer
     margin calc(20/1920*100vw) 0
+  .linkName.active,
   .linkName:hover
     color #252525
   .right > div
@@ -378,7 +380,8 @@ export default {
     bottom calc(75/1920*100vw)
   .primaryBtGroup
     width calc(133/1920*100vw)
-    min-height 36px;
+    min-width 120px
+    min-height 36px
     height calc(42/1920*100vw)
     color #b2b2b2
     font-size calc(16/1920*100vw)
@@ -392,6 +395,7 @@ export default {
     width calc(104/1920*100vw)
     height calc(46/1920*100vw)
     min-height 36px
+    min-width 80px
     color #b2b2b2
     font-size calc(15/1920*100vw)
     display inline-block
@@ -425,7 +429,6 @@ export default {
     cursor pointer
     background url("~statics/images/ProductContent/ico_price.png") center center no-repeat
     background-size calc(24/1920*100vw) calc(20/1920*100vw)
-    background-color #ffb2e1
   .ico_share
     background url("~statics/images/ProductContent/ico_share.png") center center no-repeat
     background-size calc(24/1920*100vw) calc(20/1920*100vw)
@@ -437,7 +440,6 @@ export default {
     cursor pointer
     background url("~statics/images/ProductContent/ico_share.png") center center no-repeat
     background-size calc(24/1920*100vw) calc(20/1920*100vw)
-    background-color #ffb2e1
   .colorChoice
     width 32px
     height 32px
@@ -472,4 +474,9 @@ export default {
     outline none
     border-radius calc(50/1920*100vw)
     font-weight bold
+  .q-rating i
+    text-shadow none
+    color #e5e5e5
+  .q-rating i.active
+    color #ffe474
 </style>

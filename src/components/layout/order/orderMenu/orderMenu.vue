@@ -1,7 +1,7 @@
 <template>
   <q-layout ref="layout" class="myorder-layout-left">
     <q-scroll-area slot="left" style="width: 100%; height: 100%" class="myorder-left">
-      <q-list-header class="myorder-title">My Order</q-list-header>
+      <!-- <q-list-header class="myorder-title">My Order</q-list-header>
       <q-side-link item to="/Order/commerce">
         <q-item-main label="Personal Center" class="myorder-list"/>
       </q-side-link>
@@ -26,6 +26,13 @@
       <q-side-link item to="#">
         <q-item-main label="Customer Service" class="myorder-list"/>
       </q-side-link>
+    </q-scroll-area> -->
+    <q-list-header class="myorder-title">{{orderMenuHead}}</q-list-header>
+    <div v-for="(item, index) in orderMenu" >
+      <q-side-link item :to="item.to">
+        <q-item-main :label="item.name" class="myorder-list"/>
+      </q-side-link>
+    </div>
     </q-scroll-area>
     <!-- 子路由在此注入 -->
     <router-view />
@@ -49,6 +56,7 @@ import {
   QSearch,
   QField
 } from 'quasar'
+import orderMenuData from 'data/orderMenuData.json'
 export default {
   components: {
     QLayout,
@@ -65,15 +73,50 @@ export default {
     QScrollArea,
     QSearch,
     QField
+  },
+  data () {
+    return {
+      orderMenu: orderMenuData.orderMenuData,
+      orderMenuHead: 'My order'
+    }
+  },
+  mounted () {
+    var routerPath = this.$route.fullPath.toLowerCase()
+    console.log(routerPath)
+    for (var m = 0; m < this.orderMenu.length; m++) {
+      if (routerPath.indexOf(this.orderMenu[m].to.toLowerCase()) >= 0) {
+        console.log(this.orderMenu[m].to)
+        this.orderMenuHead = this.orderMenu[m].name
+        break
+      }
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      var routerPath = to.fullPath.toLowerCase()
+      console.log('-------------------')
+      console.log(routerPath)
+      for (var m = 0; m < this.orderMenu.length; m++) {
+        console.log(this.orderMenu[m].to)
+        if (routerPath.indexOf(this.orderMenu[m].to.toLowerCase()) >= 0) {
+          console.log(this.orderMenu[m].to)
+          this.orderMenuHead = this.orderMenu[m].name
+          break
+        }
+      }
+    }
   }
 }
 </script>
 <style lang="stylus">
-// .marketBox .marketContent
-//   margin-top calc(88/1920*100vw)
 .myorder-layout-left
   padding-top 88px
   position relative !important
+  font-family HelveticalNeue
+  .q-item-label
+    font-size 14px
+  .q-ripple-container
+    color #fff
   .layout
     min-height calc(100vh - 88px) !important
   main
@@ -81,6 +124,7 @@ export default {
   .layout-aside-left
     top 88px !important
     width calc(300/1920*100vw)
+    min-width 200px
   .myorder-left
     overflow hidden
     color #b2b2b2
@@ -98,15 +142,16 @@ export default {
       overflow hidden
       color #b2b2b2
       background rgba(0,0,0,0)
-      font-size calc(14/1920*100vw)
+      font-size 14px
   .myorder-list
     margin-left calc(64/1920*100vw)
     font-size calc(16/1920*100vw)
   .myorder-title
     color #252525
-    font-size calc(24/1920*100vw)
+    font-size 24px
     margin-left calc(64/1920*100vw)
     padding-top 2.6%
+    font-weight bold
     .q-tabs-head
       background rgba(0,0,0,0)
       color #2c2c2c

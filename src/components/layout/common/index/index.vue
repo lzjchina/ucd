@@ -1,6 +1,10 @@
 <template>
   <div class="marketBox" @mousewheel="paperScroll" @click.stop="allowScroll">
-    <div v-bind:class="[navSwitch ? 'show' : 'hide', BGWhite ? 'BGWhite' : 'BGTransparent']" class="marketTop">
+    <div
+      v-bind:class="[navSwitch ? 'show' : 'hide', BGWhite ? 'BGWhite' : 'BGTransparent']"
+      class="marketTop"
+      ref="marketTop"
+    >
       <r-heard :searchString="searchString" />
     </div>
     <div v-bind:class="[productMenuSwitch ? 'show' : 'hide', navSwitch ? 'twoNav' : 'oneNav']" class="productMenuBox">
@@ -16,30 +20,37 @@
     </div>
     <div
       class="navigation"
-      v-bind:style="navigationStyle"
+      v-bind:class="[navigationSwitch ? 'show' : 'hide', navSwitch ? 'twoNav' : 'oneNav', navigationShow ? 'menuShow' : 'menuHide']"
     >
       <div class="move">
         <div class="products-layout-top">
           <div class="second-filter-title-left">
             <div class="search-filter-Reset">
-              <div class="filter-filter">
+              <div
+                class="filter-filter"
+                @click="filterSwitch"
+              >
                 <img src="statics/search/images/new/ico_fiter.png" style="margin-right:4px;"><span>Filter</span>
               </div>
-              <div class="filter-clear">Reset</div>
+              <div
+                class="filter-clear"
+                @click="typeReset"
+              >Reset</div>
             </div>
           </div>
         </div>
         <div class="container-top">
           <div class="second-filter-title-right">
             <div class="second-filter-title-number">
-              <span>{{filterOfferings.length}} Results</span>
+              <span>{{offeringsLength}} Results</span>
             </div>
             <div class="second-filter-title-select">
               <span style="color:#666666">Sort by: </span>
               <q-select
                 color="secondary"
-                v-model="select"
+                v-model="sortType"
                 :options="options"
+                @change="sortTypeSelect"
               />
             </div>
           </div>
@@ -53,7 +64,6 @@
 import {
   QSelect
 } from 'quasar'
-import _ from 'lodash'
 import RHeard from 'components/layout/common/nav/nav'
 import TProductMenu from 'components/layout/common/productMenu/productMenu'
 import searchOfferings from 'data/offerings-data.json'
@@ -96,14 +106,12 @@ export default {
         color: '',
         memory: ''
       },
-      select: 'pop',
-      offerings: searchOfferings.data,
+      sortType: 'pop',
+      scrollTop: 0,
+      offeringsLength: searchOfferings.data.length,
       offeringsInit: searchOfferings.data,
       navigationSwitch: true,
-      navigationStyle: {
-        display: 'block',
-        top: '216px'
-      },
+      navigationShow: false,
       navSwitch: true,
       productMenuSwitch: true,
       BGWhite: false,
@@ -114,42 +122,64 @@ export default {
       openModelState: false
     }
   },
+  mounted () {
+    this.socket.$on('toIndexSearchChange', function (length) {
+      this.offeringsLength = length
+    }.bind(this))
+    this.socket.$on('toIndexClick', function (length) {
+      this.navigationSwitch = false
+    }.bind(this))
+    this.socket.$on('toIndexSignIn', function () {
+      this.socket.$emit('toNavSignIn')
+    }.bind(this))
+    window.addEventListener('scroll', this.handleScroll)
+  },
   computed: {
     marketContentClass: function () {
       return {
-        oneNav: this.$route.fullPath.indexOf('ProductMenu') >= 0 && !this.navSwitch,
-        twoNav: this.$route.fullPath.indexOf('ProductMenu') >= 0 && this.navSwitch,
-        noNav: this.$route.fullPath.indexOf('ProductMenu') < 0
+        oneNav: this.$route.fullPath.toLowerCase().indexOf('productmenu') >= 0 && !this.navSwitch,
+        twoNav: this.$route.fullPath.toLowerCase().indexOf('productmenu') >= 0 && this.navSwitch,
+        noNav: this.$route.fullPath.toLowerCase().indexOf('productmenu') < 0
       }
-    },
-    filterOfferings: function () {
-      var _data = this.offerings
-      if (this.select === 'low') _data = _.orderBy(_data, 'price', 'asc')
-      else if (this.select === 'high') _data = _.orderBy(_data, 'price', 'desc')
-      else if (this.select === 'shelfTime') _data = _.orderBy(_data, 'shelfTime', 'desc')
-      else _data = _.orderBy(_data, this.select)
-      if (this.active.type !== '' && this.active.type !== 'All') {
-        var _type = this.active.type
-        _data = _data.filter(function (item) {
-          return item.type === _type
-        })
-      }
-      if (this.active.color !== '') {
-        var _color = this.active.color
-        _data = _data.filter(function (item) {
-          return item.color === _color
-        })
-      }
-      if (this.active.memory !== '') {
-        var _memory = this.active.memory
-        _data = _data.filter(function (item) {
-          return item.memory === _memory
-        })
-      }
-      return _data
+    // },
+    // filterOfferings: function () {
+    //   var _data = this.offerings
+    //   if (this.sortType === 'low') _data = _.orderBy(_data, 'price', 'asc')
+    //   else if (this.sortType === 'high') _data = _.orderBy(_data, 'price', 'desc')
+    //   else if (this.sortType === 'shelfTime') _data = _.orderBy(_data, 'shelfTime', 'desc')
+    //   else _data = _.orderBy(_data, this.sortType)
+    //   if (this.active.type !== '' && this.active.type !== 'All') {
+    //     var _type = this.active.type
+    //     _data = _data.filter(function (item) {
+    //       return item.type === _type
+    //     })
+    //   }
+    //   if (this.active.color !== '') {
+    //     var _color = this.active.color
+    //     _data = _data.filter(function (item) {
+    //       return item.color === _color
+    //     })
+    //   }
+    //   if (this.active.memory !== '') {
+    //     var _memory = this.active.memory
+    //     _data = _data.filter(function (item) {
+    //       return item.memory === _memory
+    //     })
+    //   }
+    //   return _data
     }
   },
   methods: {
+    typeReset () {
+      this.socket.$emit('toSearchTypeReset')
+    },
+    sortTypeSelect () {
+      console.log(this.select)
+      this.socket.$emit('toSearchSortTypeSelect', this.select)
+    },
+    filterSwitch () {
+      this.socket.$emit('toSearchFilterSwitch')
+    },
     setValue (val) {
       this.searchString = val
     },
@@ -163,10 +193,10 @@ export default {
     paperScroll: function (event) {
       // var routerPath = this.$route.fullPath
       // console.log(this.$route)
-      var _routerPath = this.$route.path
-      let stop = false
+      var _routerPath = this.$route.path.toLowerCase()
       // console.log(event)
-      if (_routerPath === '/Home') {
+      // this.socket.$emit('toNavSearchHide')
+      if (_routerPath === '/home') {
         event.preventDefault()
         if (this.scroll) {
           // 上
@@ -227,10 +257,9 @@ export default {
           }
         }
       }
-      else if (_routerPath === '/ProductMenu') {
+      else if (_routerPath === '/productmenu') {
         // 上
         this.BGWhite = true
-        console.log(this.BGWhite)
         if (event.deltaY < 0) {
           this.navSwitch = true
         }
@@ -239,39 +268,36 @@ export default {
           this.navSwitch = false
         }
       }
-      else if (_routerPath === '/Market/Search' && stop) {
+      else if (_routerPath === '/market/search') {
+        // event.preventDefault()
         // 上
         this.BGWhite = true
         if (event.deltaY < 0) {
           this.navSwitch = true
-          if ((window.scrollY - 100) > 216) {
-            console.log(1)
-            this.navigationStyle.top = '0px'
-            this.BGWhite = false
+          if ((window.scrollY - 100) < 279) {
+            // this.navigationSwitch = false
+            if (window.scrollY <= 100) {
+              this.BGWhite = false
+            }
           }
-          else if ((window.scrollY - 100) < 0) {
-            console.log(3)
-            this.navigationStyle.top = '216px'
-          }
-          else if ((window.scrollY - 100) < 216) {
-            console.log(2)
-            this.navigationStyle.top = (216 - (window.scrollY - 100)) + 'px'
+          else {
+            // this.navigationSwitch = true
           }
         }
         // 下
         else if (event.deltaY > 0) {
           this.navSwitch = false
-          if ((window.scrollY + 100) < 216) {
-            this.navigationStyle.top = (216 - (window.scrollY + 100)) + 'px'
+          if ((window.scrollY + 100) >= 279) {
+            // this.navigationSwitch = true
           }
           else {
-            this.navigationStyle.top = '0px'
+            // this.navigationSwitch = false
           }
         }
       }
       else {
+        console.log('--------------')
         this.BGWhite = true
-        console.log(this.BGWhite)
         // 上
         if (event.deltaY < 0) {
           this.navSwitch = true
@@ -284,6 +310,45 @@ export default {
           this.navSwitch = false
           this.BGWhite = true
         }
+      }
+    },
+    handleScroll: function () {
+      var _routerPath = this.$route.path.toLowerCase()
+      if (_routerPath.indexOf('/market/search') >= 0) {
+        var _scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        var _offsetTop = document.querySelector('.searchNavigation').offsetTop
+        this.BGWhite = true
+        // 上
+        if (_scrollTop < this.scrollTop) {
+          // this.navSwitch = true
+          if (_scrollTop < _offsetTop) {
+            this.navigationSwitch = false
+            if (_scrollTop === 0) {
+              this.BGWhite = false
+            }
+          }
+          else {
+            this.navigationSwitch = true
+          }
+        }
+        // 下
+        else if (_scrollTop > this.scrollTop) {
+          if (_scrollTop > _offsetTop) {
+            this.navigationSwitch = true
+            this.navigationShow = true
+          }
+          else {
+            this.navigationSwitch = false
+          }
+        }
+        if (window.scrollY < window.innerHeight) {
+          let val = (window.scrollY / (318 / 1920 * window.innerWidth)).toFixed(3)
+          this.$refs.marketTop.style.backgroundColor = `rgba(255, 255, 255, ${val})`
+        }
+        else {
+          this.$refs.marketTop.style.backgroundColor = `rgba(255, 255, 255, 1)`
+        }
+        this.scrollTop = _scrollTop
       }
     }
   },
@@ -298,35 +363,34 @@ export default {
       this.navSwitch = false
       this.BGWhite = true
       this.productMenuSwitch = true
-      this.navigationStyle.display = 'none'
+      this.navigationSwitch = false
     }
     else if (this.$route.fullPath.indexOf('/Market/Search') >= 0) {
-      this.navigationStyle.display = 'block'
+      this.navigationSwitch = false
       this.navSwitch = false
       this.BGWhite = false
       this.productMenuSwitch = false
     }
     else {
-      this.navigationStyle.display = 'none'
+      this.navigationSwitch = false
       this.navSwitch = true
       this.productMenuSwitch = false
     }
   },
   watch: {
     '$route' (to, from) {
-      console.log(to)
-      console.log(to.fullPath.indexOf('ProductMenu') >= 0)
-      if (to.fullPath.indexOf('ProductMenu') >= 0) {
+      var toRoutePath = to.fullPath.toLowerCase()
+      if (toRoutePath.indexOf('productmenu') >= 0) {
         this.navSwitch = false
         this.BGWhite = true
         this.productMenuSwitch = true
-        this.navigationStyle.display = 'none'
+        this.navigationSwitch = false
       }
-      else if (to.fullPath.indexOf('/Market/Search') >= 0) {
-        this.navigationStyle.display = 'block'
+      else if (toRoutePath.indexOf('/market/search') >= 0) {
+        this.navigationSwitch = false
       }
       else {
-        this.navigationStyle.display = 'none'
+        this.navigationSwitch = false
         this.BGWhite = false
         this.navSwitch = true
         this.productMenuSwitch = false
@@ -352,12 +416,29 @@ export default {
   from {top: 88px}
   to {top: 0px}
 }
+@keyframes menuShow {
+  from {top: -82px}
+  to {top: 0px}
+}
 .marketBox
   position relative
+  >.navigation.oneNav
+    top: 0px
+    animation: menuUp .3s
+  >.navigation.twoNav.menuShow
+    top: 88px
+    animation: menuDown .3s
+  >.navigation.hide
+    display none
+  >.navigation.show
+    display flex
+  >.navigation.menuShow
+    top: 0px
+    animation: menuShow .3s
   >.navigation
-    // position fixed
+    position fixed
     z-index 99999
-    position relative
+    //position relative
     z-index 100
     background-color #fff
     width 100%
@@ -439,7 +520,6 @@ export default {
       background #e5e5e5
       margin-bottom 1.4%
       margin-top -10px
-
   .productMenuBox
     width: 100vw
     max-width: 100%
